@@ -6,7 +6,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
-    "nuxt": "latest"
+    "jquery": "^3.2.1",
+    "nuxt": "latest",
+    "toastr": "^2.1.2",
+    "vue-awesome-swiper": "^2.5.4"
   },
   "scripts": {
     "dev": "nuxt",

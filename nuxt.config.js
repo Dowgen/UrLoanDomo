@@ -1,7 +1,7 @@
 module.exports = {
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'starter',
     meta: [
@@ -10,7 +10,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'UrLoan project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
   plugins: [
@@ -22,12 +22,12 @@ module.exports = {
     'swiper/dist/css/swiper.css'
   ],
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#3B8070' },
+   ** Customize the progress-bar color
+   */
+  loading: {color: '#3B8070'},
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     vendor: [
       'axios',
@@ -36,8 +36,8 @@ module.exports = {
       'swiper'
     ],
     /*
-    ** Run ESLINT on save
-    */
+     ** Run ESLINT on save
+     */
     extend (config, ctx) {
       if (ctx.isClient) {
         config.module.rules.push({

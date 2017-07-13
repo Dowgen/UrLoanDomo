@@ -128,7 +128,7 @@
       line-height 20px
     .question-content
       z-index 10
-      position absolute
+      position fixed
       top 0
       left 0
       width 100%
@@ -159,7 +159,7 @@
 
     .contact-content
       z-index 10
-      position absolute
+      position fixed
       top 0
       left 0
       width 100%

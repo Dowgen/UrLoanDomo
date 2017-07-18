@@ -9,9 +9,6 @@
         </div>
         <div class="text">芝麻信用</div>
       </div>
-      <div class="zhima">
-        <img width="45" height="45" src="../static/register_pic6.png"/>
-      </div>
     </div>
     <div class="grey"></div>
     <div class="content">

@@ -80,7 +80,7 @@
       color #828389
       line-height 20px
     .advice-content
-      position absolute
+      position fixed
       top 0
       left 0
       width 100%
@@ -113,7 +113,7 @@
         text-align center
         font-size 13px
     .complain-content
-      position absolute
+      position fixed
       top 0
       left 0
       width 100%

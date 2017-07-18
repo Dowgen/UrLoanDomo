@@ -118,13 +118,14 @@
       // 发送验证码
       sendVcode:function(phoneNum){
           var that = this;
-          axios.post('http://120.27.198.97:8081/flower/w/cashUser/sendMsg', { phoneNum:phoneNum } )
+          axios.get('http://120.27.198.97:8081/flower/w/cashUser/sendMsg?phoneNum='+ phoneNum)
           .then( data => {
-              if(data == 'error') {
+              console.warn(data);
+              if(data.data == 'error') {
                   toastr.warning("验证码发送失败!");
                   that.resetBtn();
               }
-              if(data == 'success') {
+              if(data.data == 'success') {
                   toastr.success("验证码发送成功");
               }        
           })
@@ -137,26 +138,25 @@
       sended:function(params) {
 
           var that = this;
-          that.$refs.ensure_btn.setAttribute("disabled",true);
-          axios.post(
-            '${pageContext.request.contextPath}/w/cashUser/checkMsg',{
-                  phoneNum:params.phoneNum,
-                  checkCode:that.verifyCode})
+          /*that.$refs.ensure_btn.setAttribute("disabled",true);*/
+          axios.get(
+            `http://120.27.198.97:8081/flower/w/cashUser/checkMsg?phoneNum=${params.phoneNum}&checkCode=${that.verifyCode}`.trim())
           .then( data => {
-            if(data.status == 0 ) {
+            console.warn(data);
+            if(data.data.status == 0 ) {
               toastr.warning("验证码错误!");
               that.resetBtn();
             }
-            if(data.status == 1 ) {
+            if(data.data.status == 1 ) {
                 toastr.success("验证成功！");
                 that.init();
                 /* window.location.href = document.referer; */                           
-                that.user_info = JSON.parse(data.loanUser);
+                that.user_info = JSON.parse(data.data.loanUser);
                 that.login = true;
-                localStorage.user_info = data.loanUser;   //保存用户所有信息
+                localStorage.user_info = data.data.loanUser;   //保存用户所有信息
                 localStorage.login = true;
                 //顺便把sessionid放入localStorage
-                localStorage.sessionid = data.sessionid;
+                localStorage.sessionid = data.data.sessionid;
             }
             that.$refs.ensure_btn.removeAttribute("disabled"); 
             that.$refs.ensure_btn.style.background = "#1abc9c";

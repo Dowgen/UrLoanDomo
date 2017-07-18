@@ -64,7 +64,7 @@
     },
     methods:{
       // 开始倒计时
-      startCount:function() { 
+      startCount () { 
         if(this.runCount){
           this.$refs.d_btn.setAttribute("disabled",true);
             if (this.countdown == 0) { 
@@ -77,13 +77,13 @@
         }
       },
       // 验证成功，重置所有
-      init:function(){
+      init (){
           this.phoneNum= null;
           this.verifyCode= null;
           this.resetBtn();
       },
       // 点击获取验证码时，校验手机号
-      sendVerify:function() {
+      sendVerify () {
           if (!this.sendMessage) {
             if (!this.phoneNum || !this.phoneNum.match(
                 /^(0|86|17951)?(13[0-9]|15[012356789]|17[6780]|18[0-9]|14[57])[0-9]{8}$/)) {
@@ -99,7 +99,7 @@
           } 
       },
       // 点击登录时，校验手机号和验证码
-      confirmPhone:function() {
+      confirmPhone () {
           if (!this.phoneNum || !this.phoneNum.match(
               /^(0|86|17951)?(13[0-9]|15[012356789]|17[6780]|18[0-9]|14[57])[0-9]{8}$/)) {
               toastr.warning('请输入有效手机号');
@@ -116,7 +116,7 @@
           this.sended(params); 
       },
       // 发送验证码
-      sendVcode:function(phoneNum){
+      sendVcode (phoneNum){
           var that = this;
           axios.get('http://120.27.198.97:8081/flower/w/cashUser/sendMsg?phoneNum='+ phoneNum)
           .then( data => {
@@ -135,10 +135,10 @@
           });
       },
       // 验证码校验
-      sended:function(params) {
+      sended (params) {
 
           var that = this;
-          /*that.$refs.ensure_btn.setAttribute("disabled",true);*/
+          that.$refs.ensure_btn.setAttribute("disabled",true);
           axios.get(
             `http://120.27.198.97:8081/flower/w/cashUser/checkMsg?phoneNum=${params.phoneNum}&checkCode=${that.verifyCode}`.trim())
           .then( data => {
@@ -150,7 +150,7 @@
             if(data.data.status == 1 ) {
                 toastr.success("验证成功！");
                 that.init();
-                /* window.location.href = document.referer; */                           
+                window.location.href = './infoFillIn';                           
                 that.user_info = JSON.parse(data.data.loanUser);
                 that.login = true;
                 localStorage.user_info = data.data.loanUser;   //保存用户所有信息
@@ -159,17 +159,17 @@
                 localStorage.sessionid = data.data.sessionid;
             }
             that.$refs.ensure_btn.removeAttribute("disabled"); 
-            that.$refs.ensure_btn.style.background = "#1abc9c";
+            that.$refs.ensure_btn.style.background = "#bdaa73";
           })
           .catch( err => {
               toastr.warning("验证码错误!");
               that.resetBtn();
               that.$refs.ensure_btn.removeAttribute("disabled"); 
-              that.$refs.ensure_btn.style.background = "#1abc9c";
+              that.$refs.ensure_btn.style.background = "#bdaa73";
           });
       },
       //按钮重置
-      resetBtn:function(){
+      resetBtn (){
         this.sendMessage= false;
         this.btn_words='重新发送';
         this.$refs.d_btn.removeAttribute("disabled"); 

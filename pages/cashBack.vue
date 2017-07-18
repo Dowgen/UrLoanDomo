@@ -52,6 +52,12 @@
           </div>
         </div>
 
+        <div class="pic-con">
+          <p>请上传您本人在贷款此产品时相关的证明截图(不超过3张),
+          如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
+          
+        </div>
+
       </div>
     </transition>
   </section>
@@ -142,7 +148,7 @@
       left 0
       width 100%
       height 100%
-      background-color #ffffff
+      background-color #f5f5f5
       transform: translate3d(0, 0, 0)
       &.move-enter-active, &.move-leave-active
         transition: all 0.2s linear
@@ -158,6 +164,7 @@
     .content
       width 100%
       padding 0 16px
+      background white
       .item
         display flex
         justify-content space-between

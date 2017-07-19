@@ -149,14 +149,14 @@
             }
             if(data.data.status == 1 ) {
                 toastr.success("验证成功！");
-                that.init();
-                window.location.href = './infoFillIn';                           
+                that.init();                       
                 that.user_info = JSON.parse(data.data.loanUser);
                 that.login = true;
                 localStorage.user_info = data.data.loanUser;   //保存用户所有信息
                 localStorage.login = true;
                 //顺便把sessionid放入localStorage
                 localStorage.sessionid = data.data.sessionid;
+                window.location.href = './infoFillIn';
             }
             that.$refs.ensure_btn.removeAttribute("disabled"); 
             that.$refs.ensure_btn.style.background = "#bdaa73";

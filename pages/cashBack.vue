@@ -55,9 +55,14 @@
         <div class="pic-con">
           <p>请上传您本人在贷款此产品时相关的证明截图(不超过3张),
           如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
-          
+          <div class="add-pic">
+            <img src="../static/add_pic.png">
+            <input id="upfile22" type="file" name="upfile22" multiple="multiple" accept="image/png,image/jpg" class="accept">
+          </div>
         </div>
-
+        <div class="submit">
+          <div>提交信息</div>
+        </div>
       </div>
     </transition>
   </section>
@@ -181,4 +186,43 @@
         .select-time
           border none
           outline none
+    .pic-con
+      width 100%
+      padding 10px 16px
+      background white
+      margin-top 20px
+      height 150px
+      p
+      font-size 13px
+      color #828389
+      .add-pic
+        position relative
+        margin-top 15px
+        img
+          width 50px
+          height 50px
+        input
+          position: absolute;
+          left: 0;
+          height: 50px;
+          width: 50px;
+          opacity: 0;
+    .submit
+      width 100%
+      display flex
+      justify-content center
+      align-items center
+      position absolute
+      bottom 0
+      background white
+      height 60px
+      div
+        height 40px
+        width 95%
+        background #bdaa73
+        color white
+        font-size 13px
+        text-align center
+        line-height 40px
+        border-radius 5px
 </style>

@@ -14,15 +14,15 @@
     <div class="content">
       <div class="item">
         <div class="name">姓名</div>
-        <div class="text">蒋杨昌</div>
+        <div class="text">{{userInfo.real_name}}</div>
       </div>
       <div class="item">
         <div class="name">身份证号</div>
-        <div class="text">331004199306042515</div>
+        <div class="text">{{userInfo.id_card}}</div>
       </div>
       <div class="item">
         <div class="name">注册手机号</div>
-        <div class="text">18158500564</div>
+        <div class="text">{{userInfo.phone_number}}</div>
       </div>
     </div>
     <div class="bottom">
@@ -64,14 +64,46 @@
   </section>
 </template>
 <script type="text/ecmascript">
+  import toastr from 'toastr'
+  import axios from 'axios'
+
+  // 弹窗插件配置
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    progressBar: false,
+    positionClass: "toast-top-full-width",
+    onclick: null,
+    showDuration: "200",
+    hideDuration: "800",
+    timeOut: "1500",
+    extendedTimeOut: "800",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+  };
+
   export default{
     data () {
       return {
         accreditStatus: false,
         payStatus: false,
-        picked: ''
+        picked: '',
+        userInfo:{}
       }
-
+    },
+    mounted(){
+      var that = this;
+      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
+        'sessionid=' + localStorage.sessionid)
+        .then(function (response) {
+            that.userInfo=JSON.parse(response.data.data);
+          console.log(that.userInfo);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     methods: {
       accredit () {

@@ -56,7 +56,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="banner in banners">
             <div class="product">
-              <img width="63" height="63" :src="banner.imgUrl"/>
+              <img width="63" height="63" :src=banner.imgUrl />
               <div class="product-name">{{banner.name}}</div>
               <div class="desc">
                 <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
@@ -83,7 +83,7 @@
         maskStatus: true,
         banners: [
           {
-            imgUrl: '../static/main_profilephoto_icon.png',
+            imgUrl: '../_nuxt/img/main_profilephoto_icon.png',
             name: '功夫贷',
             rate: '0.05%',
             line: '10万',

@@ -28,7 +28,7 @@
         <div class="name">职业身份</div>
         <div class="job" v-model="job" @click="show('job')">
           <span class="job-text">{{job}}</span>
-          <img src="../static/arrow_select.png"/>
+          <img width="10" height="5" src="../static/arrow_select.png"/>
         </div>
       </div>
     </div>
@@ -53,12 +53,34 @@
         <div class="text">优贷管家基础办理费用</div>
         <div class="number">199元/年</div>
       </div>
-      <div class="next" onclick="location.href='/authorization'">下一步</div>
+      <div class="next" @click="nextStep">下一步</div>
     </div>
   </section>
 </template>
 
 <script type="text/ecmascript-6">
+  import toastr from 'toastr'
+  import axios from 'axios'
+
+  // 弹窗插件配置
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    progressBar: false,
+    positionClass: "toast-top-full-width",
+    onclick: null,
+    showDuration: "200",
+    hideDuration: "800",
+    timeOut: "1500",
+    extendedTimeOut: "800",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+  };
+  var regName=/^[\u4e00-\u9fa5]+(·[\u4e00-\u9fa5]+)*$/;
+  var regIDcard=/^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/;
+  var regPhoneNumber=/^(0|86|17951)?(13[0-9]|15[012356789]|17[6780]|18[0-9]|14[57])[0-9]{8}$/;
   export default{
     data () {
       return {
@@ -80,8 +102,42 @@
         this.maskStatus = true
       },
       choose (event, type) {
-        this.job = event.target.innerHTML
+        this.job = event.target.innerHTML;
         this.hideAll()
+      },
+      nextStep () {
+        var that = this;
+        if(!regName.test(this.name)) {
+          toastr.warning('请输入正确的姓名');
+          return false;
+        }
+        if(!regIDcard.test(this.IDcard)) {
+          toastr.warning('请输入正确的身份证号码');
+          return false;
+        }
+        if(!regPhoneNumber.test(this.phoneNumber)) {
+          toastr.warning('请输入合法的手机号');
+          return false;
+        }
+        if(this.job=='请选择') {
+          toastr.warning('请选择职业');
+          return false;
+        }
+        console.log(localStorage.sessionid)
+        axios.get('http://120.27.198.97:8081/flower/w/xhhApp/updateOrSave?'+
+          'real_name=' + that.name +
+          '&id_card=' + that.IDcard +
+          '&phone_number=' + that.phoneNumber +
+          '&ocp=' + that.job +
+          '&sessionid=' + localStorage.sessionid)
+          .then(function (response) {
+            console.log(response);
+            window.location.href = '/authorization';
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
       }
     }
   }

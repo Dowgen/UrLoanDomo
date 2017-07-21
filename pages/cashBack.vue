@@ -77,7 +77,25 @@
   </section>
 </template>
 <script type="text/ecmascript">
+  import toastr from 'toastr'
   import axios from 'axios'
+
+  // 弹窗插件配置
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    progressBar: false,
+    positionClass: "toast-top-full-width",
+    onclick: null,
+    showDuration: "200",
+    hideDuration: "800",
+    timeOut: "1500",
+    extendedTimeOut: "800",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+  };
   export default{
     head: {
       script: [
@@ -109,7 +127,7 @@
           },
           'onComplete': function(rs) {
               console.log('onComplete');
-              $('#proveImg').attr('src',"http://120.27.198.97:8081/flower"+rs.data)
+              /*$('#proveImg').attr('src',"http://120.27.198.97:8081/flower"+rs.data)*/
           },
           'onStart': function() {
               console.log('onStart');
@@ -144,11 +162,16 @@
           '&loan_period=' + that.duration +
           '&phoneNum=' + localStorage.phoneNumber
           )
-          .then(function (response) {
-            console.log(response);
+          .then(function (rs) {
+            console.log(rs);
+            if(rs.data.code == 0){
+              toastr.warning('用户重复添加产品!');
+            }else if(rs.data.code == 1){
+              toastr.success("信息保存成功！");
+            }
           })
           .catch(function (error) {
-            console.log(error);
+            toastr.warning('信息保存失败，请重试!');
           });
       },
       hidePrompt() {

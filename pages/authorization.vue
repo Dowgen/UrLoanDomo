@@ -166,7 +166,8 @@
           + 'device_info=ios'
           + '&version=2.0.0'
           + '&nonce_str=nonce_str'       /* 随机字符串 */
-          + '&out_trade_no=' + Date.now()  /* 商户订单号 */
+          + '&out_trade_no=' + Date.now() 
+          + Math.random().toString(36).substr(6)  /* 商户订单号 */
           + '&no_credit=no_credit'       /* 是否屏蔽信用卡 */
           + '&body=优贷管家vip年费'      /* 商品描述 */
           + '&store_appid=10086'         /* 门店APPID */

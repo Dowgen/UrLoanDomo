@@ -121,7 +121,7 @@
         }
       }
     },
-    created(){
+    beforeMount(){
       var that = this;
       var date=new Date();
       var year=date.getFullYear();

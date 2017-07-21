@@ -55,7 +55,7 @@
           <div class="payBtn"></div>
           <img  v-if="picked=='Two'" src="../static/choice_payway.png">
         </div>
-        <div class="confirm">
+        <div class="confirm" @click="openAliPay">
           确认支付
         </div>
 
@@ -85,6 +85,12 @@
   };
 
   export default{
+    head: {
+      script: [
+        { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.2/jquery.min.js' },
+        { src: 'http://120.27.198.97:8081/flower/static/yloan/js/alipaywap.js' }
+      ]
+    },
     data () {
       return {
         accreditStatus: false,
@@ -93,21 +99,58 @@
         userInfo:{}
       }
     },
-    mounted(){
+    created (){
+      /* 判断是否芝麻验证成功 */
+      if( this.GetQueryString('params') == null){
+        /* 还未芝麻认证，啥也不干 */
+      }else{
+        console.log(process)
+        var that = this;
+        /* 已芝麻认证，把芝麻返回的数据发给我们自己的服务器 */
+        axios.get('http://120.27.198.97:8081/flower/w/youngzhima/zhimaCredit?' 
+          /* 返回的数据需原封不动，因此用 encodeURIComponent 再编码 */
+          + 'params=' + encodeURIComponent( this.GetQueryString('params') )
+          + '&sign=' + encodeURIComponent( this.GetQueryString('sign') )
+          + '&sessionid=' + localStorage.sessionid )
+          .then(function (res) {
+            if(res.data.code == '1'){
+              that.accreditStatus = true;
+            }else{
+              toastr.warning('芝麻认证失败，请重新认证!');
+            }
+          })
+          .catch(function (error) {
+            console.warn(error);
+          });
+      }
+    },
+    mounted (){
       var that = this;
-      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
-        'sessionid=' + localStorage.sessionid)
-        .then(function (response) {
-            that.userInfo=JSON.parse(response.data.data);
-          console.log(that.userInfo);
+      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+ 'sessionid=' + localStorage.sessionid )
+        .then(function (res) {
+            that.userInfo=JSON.parse(res.data.data);
         })
         .catch(function (error) {
           console.log(error);
         });
     },
     methods: {
+      /* 得到url参数 */
+      GetQueryString (name){
+        /* 判断一下是否在浏览器内，否则window是undefined的 */
+        if (process.browser) {
+          var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+          var r = window.location.search.substr(1).match(reg);
+          if(r!=null)return  unescape(r[2]); return null;
+        }
+      },
+      /* 芝麻信用认证 */
       accredit () {
-        this.accreditStatus = true;
+        var that = this;
+        window.location.href=
+          'http://120.27.198.97:8081/flower/w/youngzhima/zhimaAuth?real_name=' + that.userInfo.real_name +
+          '&id_card=' + that.userInfo.id_card +
+          '&sessionid='+ localStorage.sessionid;
       },
       hideAll(){
         this.accreditStatus = false;
@@ -115,11 +158,27 @@
       },
       goPay (){
         this.payStatus=true
+      },
+      openAliPay (){
+        axios.get('http://120.27.198.97:8081/flower/w/payMent/wapPost?'
+          + 'device_info=ios'
+          + '&version=2.0.0'
+          + '&nonce_str=nonce_str'       /* 随机字符串 */
+          + '&out_trade_no=' + Date.now()  /* 商户订单号 */
+          + '&no_credit=no_credit'       /* 是否屏蔽信用卡 */
+          + '&body=优贷管家vip年费'      /* 商品描述 */
+          + '&store_appid=10086'         /* 门店APPID */
+          + '&attach=附加信息' 
+          + '&total_fee=1'               /* 支付金额 */
+        )
+        .then( res => alipay_wap(res.data.prepay_id,'/myAccount') )
+        .catch( error => console.log(error) )
       }
     }
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import url('~dropzone/dist/dropzone.css');
   @keyframes fade
     from{opacity: 0;}
     to{opacity: 1}

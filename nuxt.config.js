@@ -3,11 +3,14 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: 'starter',
+    title: '优贷管家',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'UrLoan project' }
+      { 'http-equiv':"Access-Control-Allow-Origin", content:"*"},
+      { 'http-equiv':"x-ua-compatible", content:"ie=edge,chrome=1"},
+      { name: 'viewport', content: 'width=device-width,height=device-height,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no' },
+      { name: 'format-detection', content: 'telephone=no'},
+      { hid: 'description', name: 'description', content: '优待管家，巴拉巴拉' }
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
@@ -33,7 +36,8 @@ module.exports = {
       'axios',
       'jquery',
       'toastr',
-      'swiper'
+      'swiper',
+      'Dropzone'
     ],
     /*
      ** Run ESLINT on save

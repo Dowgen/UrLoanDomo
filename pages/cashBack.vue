@@ -56,7 +56,7 @@
           <p>请上传您本人在贷款此产品时相关的证明截图(不超过3张),
             如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
           <div class="add-pic">
-            <img src="../static/add_pic.png">
+            <img id="proveImg" src="../static/add_pic.png">
             <input id="upfile22" type="file" name="upfile22" multiple="multiple" accept="image/png,image/jpg" class="accept">
           </div>
         </div>
@@ -69,6 +69,13 @@
 </template>
 <script type="text/ecmascript">
   export default{
+    head: {
+      script: [
+        { src: 'http://flowercredit.cn/static/jhcommon/js/jQuery.min.js' },
+        { src: 'http://flowercredit.cn/static/jhcommon/js/uploader/upload.js' },
+        { src: 'http://flowercredit.cn/static/jhcommon/js/uploader/jquery.ajaxfileupload.js' }
+      ]
+    },
     data () {
       return {
         loanStatus: false,
@@ -77,10 +84,34 @@
         duration:''
       }
     },
+    created () {
+      if (process.browser) {
+        console.warn('upfile22');
+        console.warn($('#upfile22'));
+        $("#upfile22").click();
+        $("#upfile22").ajaxfileupload({
+          'action': "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
+          'params': {
+            phoneNum: localStorage.phoneNumber,
+            product_name: '拍拍贷'
+          },
+          'onComplete': function(rs) {
+              console.log('onComplete');
+              $('#proveImg').attr('src',"http://120.27.198.97:8081/flower"+rs.data)
+          },
+          'onStart': function() {
+              console.log('onStart');
+          },
+          'onCancel': function() {
+              alert('onCancel');
+          }
+        });
+      }
+    },
     methods: {
       loan () {
         this.loanStatus = true;
-      },
+      }
     }
   }
 </script>

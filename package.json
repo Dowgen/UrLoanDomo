@@ -8,10 +8,12 @@
     "axios": "^0.16.2",
     "jquery": "^3.2.1",
     "nuxt": "latest",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "toastr": "^2.1.2",
     "vue-awesome-swiper": "^2.5.4",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.1"
+    "vue-core-image-upload": "^2.3.5",
+    "vue2-dropzone": "^2.3.5"
   },
   "scripts": {
     "dev": "nuxt",

@@ -1,12 +1,12 @@
 <template>
   <section class="container">
-    <div class="product">
+    <div class="product" v-for="(item , index) in productList" @click="jump(item.link)">
       <img width="60" height="60" src="../static/main_profilephoto_icon.png"/>
-      <div class="product-name">功夫贷</div>
+      <div class="product-name">{{item.product_name}}</div>
       <div class="desc">
-        <span class="dailyRate">日利率<span class="number">0.05%</span></span>
+        <span class="dailyRate">日利率<span class="number">{{item.rate}}</span></span>
         <span class="lines">最高额度<span class="number">10万</span></span>
-        <span class="success">成功率<span class="number">96%</span></span>
+        <span class="success">成功率<span class="number">{{item.success_rate}}</span></span>
       </div>
       <div class="advantage">
         <span class="advantage-inner">申请资料简单</span>
@@ -17,21 +17,46 @@
         <div class="discount">最高立减50</div>
         <img width="10" height="10" src="../static/back_authority_icon.png">
       </div>
-      <div class="top-wrapper">
+      <div class="top-wrapper" v-if="index==0">
         <img width="36" height="46" src="../static/top1_icon.png">
       </div>
     </div>
   </section>
 </template>
 <script type="text/ecmascript">
-
+  import axios from 'axios'
+  export default{
+    data () {
+      return {
+        productList:[]
+      }
+    },
+    created(){
+      var that = this;
+      axios.get('http://120.27.198.97:8081/flower/w/youLoan/loanList')
+        .then(function (response) {
+          that.productList=response.data.list
+          console.log(response.data.list);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    methods: {
+        jump(adress){
+            window.location.href=adress
+        }
+    }
+  }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .container
     position relative
     width 100%
+    height 100%
     min-height 100vh
     background url("../static/js.png")
+    background-attachment: fixed;
     padding-top 14px
     .product
       position relative

@@ -93,13 +93,13 @@
         userInfo:{}
       }
     },
-    mounted(){
+    beforeMount(){
       var that = this;
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
         .then(function (response) {
             that.userInfo=JSON.parse(response.data.data);
-          console.log(that.userInfo);
+            console.log(that.userInfo);
         })
         .catch(function (error) {
           console.log(error);

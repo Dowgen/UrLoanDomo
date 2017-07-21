@@ -10,11 +10,11 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'UrLoan project' }
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
     ]
   },
   plugins: [
-    { src: '~plugins/swiper.js', ssr: false }
+    { src: '~plugins/swiper.js', ssr: false },
   ],
 
   css: [
@@ -33,7 +33,7 @@ module.exports = {
       'axios',
       'jquery',
       'toastr',
-      'swiper'
+      'swiper',
     ],
     /*
      ** Run ESLINT on save

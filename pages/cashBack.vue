@@ -1,26 +1,35 @@
 <template>
   <section class="container">
     <div class="add" @click="loan">
+      <img width="50" height="52" src="../static/add_icon.png">
     </div>
     <div class="apply-list">
-      <div class="apply-product">
+      <div class="apply-product" v-for="item in cashBackList">
         <div class="top">
           <img width="30" height="30" src="../static/main_profilephoto_icon.png"/>
-          <div class="name">功夫贷</div>
+          <div class="name">{{item.product_name}}</div>
         </div>
         <div class="bottom">
-          <span class="money">借款金额：<span class="number">5000</span>元</span>
-          <span class="time">借款期数：<span class="number">6</span>个月</span>
+          <span class="money">借款金额：<span class="number">{{item.money}}</span>元</span>
+          <span class="time">借款期数：<span class="number">{{item.loan_period}}</span></span>
+        </div>
+        <div class="applyStatus" v-show="item.status==0">
+          <div class="text">申请中...</div>
+        </div>
+        <div class="applyStatus1" v-show="item.status==1">
+          <div class="text">申请成功</div>
         </div>
       </div>
     </div>
-    <div class="prompt">
+    <div class="prompt" v-show="promptStatus">
       <div class="title">温馨提示：</div>
       <div class="text">优贷管家的返利申请是针对您申请成功之后我们平台为你的返利的直接证明，
         请按照您的实际申请内容去填写，以免遗漏返利金额，如您的申请经过我们的审核属实，
         我们会在7日之内向您的支付会员时的原渠道返相应金额。
       </div>
+      <img @click="hidePrompt" width="50" height="31" src="../static/tip_arrow_down.png"/>
     </div>
+    <img style="position: fixed;bottom: 0;left: 50%;margin-left: -25px" width="50" height="31" @click="showPrompt" src="../static/tip_arrow_up.png" v-show="!promptStatus">
     <transition name="move">
       <div class="loan-content" v-show="loanStatus">
         <div class="attention">注意：请填写真实的贷款申请信息</div>
@@ -60,7 +69,7 @@
             <input id="upfile22" type="file" name="upfile22" multiple="multiple" accept="image/png,image/jpg" class="accept">
           </div>
         </div>
-        <div class="submit">
+        <div class="submit" @click="submitApply">
           <div>提交信息</div>
         </div>
       </div>
@@ -68,19 +77,55 @@
   </section>
 </template>
 <script type="text/ecmascript">
+  import axios from 'axios'
   export default{
     data () {
       return {
+        promptStatus:true,
         loanStatus: false,
         loanName: '',
         loanMoney:'',
-        duration:''
+        duration:'',
+        cashBackList:[]
       }
+    },
+    mounted(){
+      var that = this;
+      axios.get('http://120.27.198.97:8081/flower/w/youLoan/returnLoanList?'+
+        'phoneNum=' + localStorage.phoneNumber)
+        .then(function (response) {
+          that.cashBackList=response.data
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     methods: {
       loan () {
         this.loanStatus = true;
       },
+      submitApply() {
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
+          'product_name=' + that.loanName +
+          '&money=' + that.loanMoney +
+          '&loan_period=' + that.duration +
+          '&phoneNum=' + localStorage.phoneNumber
+          )
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
+      hidePrompt() {
+        this.promptStatus=false;
+      },
+      showPrompt() {
+        this.promptStatus=true;
+      }
     }
   }
 </script>
@@ -89,9 +134,14 @@
     position relative
     width 100%
     min-height 100vh
+    height 100%
     background url("../static/js.png")
+    background-attachment: fixed
     padding-top 14px
     .add
+      display flex
+      justify-content center
+      align-items center
       width 92%
       height 80px
       margin 0 auto
@@ -103,6 +153,7 @@
       width 92%
       margin 0 auto
       .apply-product
+        position relative
         width 100%
         height 80px
         background-color rgba(255,255,255,0.14)
@@ -130,8 +181,40 @@
           .time
             .number
               color #F42D06
+        .applyStatus
+          position absolute
+          display flex
+          align-items center
+          justify-content center
+          right -3px
+          top 18px
+          width 70px
+          height 23px
+          background url("../static/applying_bg.png")
+          background-size contain
+          background-repeat no-repeat
+          .text
+            font-size 12px
+            color #F5F5F5
+            margin-bottom 4px
+        .applyStatus1
+          position absolute
+          display flex
+          align-items center
+          justify-content center
+          right -3px
+          top 18px
+          width 70px
+          height 23px
+          background url("../static/applyed_bg .png")
+          background-size contain
+          background-repeat no-repeat
+          .text
+            font-size 12px
+            color #F5F5F5
+            margin-bottom 4px
     .prompt
-      position absolute
+      position fixed
       bottom 0
       left 0
       width 100%
@@ -147,6 +230,11 @@
         line-height 20px
         padding-left 20px
         text-indent 2em
+      img
+        position absolute
+        top -5px
+        left 50%
+        margin-left -25px
     .loan-content
       position fixed
       top 0

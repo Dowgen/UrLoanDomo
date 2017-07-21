@@ -16,30 +16,42 @@
     </div>
     <transition name="move">
       <div class="advice-content" v-show="adviceStatus">
-        <form action="">
-          <textarea class="advice-text" placeholder="您的意见和建议是我们优贷管家进步的动力，请尽情告诉我们，我们一定会加强完善，谢谢！"></textarea>
-          <input class="submit-btn" type="submit" value="提交" />
-        </form>
+          <textarea v-model="adviceText" class="advice-text" placeholder="您的意见和建议是我们优贷管家进步的动力，请尽情告诉我们，我们一定会加强完善，谢谢！"></textarea>
+          <input class="submit-btn" @click="submitAdvice" type="submit" value="提交" />
       </div>
     </transition>
     <transition name="move">
       <div class="complain-content" v-show="complainStatus">
-        <form action="">
-          <textarea class="complain-text" placeholder="您的意见和建议是我们优贷管家进步的动力，请尽情告诉我们，我们一定会加强完善，谢谢！"></textarea>
-          <input class="submit-btn" type="submit" value="提交" />
-        </form>
+          <textarea v-model="complainText" class="complain-text" placeholder="您的意见和建议是我们优贷管家进步的动力，请尽情告诉我们，我们一定会加强完善，谢谢！"></textarea>
+          <input class="submit-btn" @click="submitComplain" type="submit" value="提交" />
       </div>
     </transition>
   </section>
 </template>
 <script type="text/ecmascript">
+  import axios from 'axios'
   export default{
     data () {
       return {
         adviceStatus: false,
-        complainStatus: false
+        complainStatus: false,
+        adviceText: '',
+        complainText: '',
+        userInfo: {}
       }
 
+    },
+    beforeMount(){
+      var that = this;
+      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
+        'sessionid=' + localStorage.sessionid)
+        .then(function (response) {
+          that.userInfo=JSON.parse(response.data.data);
+          console.log(that.userInfo);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     methods: {
       advice () {
@@ -47,7 +59,35 @@
       },
       complain () {
         this.complainStatus = true;
-      }
+      },
+      submitAdvice () {
+        var that = this;
+        this.adviceStatus = false;
+        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertAdvice ?'+
+          'type=' + 1 +
+          '&phoneNumber=' + that.userInfo.phone_number +
+          '&content=' + that.adviceText)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
+      submitComplain() {
+        var that = this;
+        this.complainStatus = false;
+        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertAdvice ?'+
+          'type=' + 2 +
+          '&phone_number=' + that.userInfo.phone_number +
+          '&content=' + that.complainText)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
     }
   }
 </script>

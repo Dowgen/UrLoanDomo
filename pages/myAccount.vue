@@ -8,13 +8,13 @@
               <img width="70" height="70" src="../static/main_profilephoto_icon.png"/>
             </div>
             <div class="content">
-              <div class="name">蒋杨昌</div>
-              <div class="age">25岁</div>
+              <div class="name">{{userInfo.real_name}}</div>
+              <div class="age">{{age}}</div>
             </div>
           </div>
           <div class="bottom-content">
             <div class="member-number">会员籍号:<span class="number">12908763</span></div>
-            <div class="phone-number">手机号码:<span class="number">18158500564</span></div>
+            <div class="phone-number">手机号码:<span class="number">{{userInfo.phone_number}}</span></div>
           </div>
         </div>
         <div class="detail-information" onclick="location.href='/myInformation'">
@@ -24,13 +24,13 @@
         </div>
       </div>
       <div class="project-list">
-        <div class="project-item">
+        <div class="project-item"onclick="location.href='/loanStore'">
           <div class="item-img">
             <img width="23" height="23" src="../static/mian_cart.png">
           </div>
-          <div class="text" onclick="location.href='/loanStore'">贷款超市</div>
+          <div class="text" >贷款超市</div>
         </div>
-        <div class="project-item">
+        <div class="project-item" onclick="location.href='/cashBack'">
           <div class="item-img">
             <img width="23" height="23" src="../static/main_apply.png">
           </div>
@@ -56,7 +56,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="banner in banners">
             <div class="product">
-              <img width="63" height="63" :src=banner.imgUrl />
+              <img width="63" height="63" :src="banner.imgUrl" />
               <div class="product-name">{{banner.name}}</div>
               <div class="desc">
                 <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
@@ -77,13 +77,17 @@
   </section>
 </template>
 <script type="text/ecmascript">
+  import axios from 'axios'
+
   export default {
     data () {
       return {
         maskStatus: true,
+        userInfo:{},
+        age: '',
         banners: [
           {
-            imgUrl: '../_nuxt/img/main_profilephoto_icon.png',
+            imgUrl: './main_profilephoto_icon.png',
             name: '功夫贷',
             rate: '0.05%',
             line: '10万',
@@ -91,7 +95,7 @@
             advantage: ['申请资料简单', '信用卡贷10万']
           },
           {
-            imgUrl: '../static/main_profilephoto_icon.png',
+            imgUrl: './main_profilephoto_icon.png',
             name: '现金侠',
             rate: '0.06%',
             line: '11.8万',
@@ -99,7 +103,7 @@
             advantage: ['申请简单', '信用卡贷10万']
           },
           {
-            imgUrl: '../static/main_profilephoto_icon.png',
+            imgUrl: './main_profilephoto_icon.png',
             name: '米兔儿',
             rate: '0.07%',
             line: '12万',
@@ -117,6 +121,22 @@
         }
       }
     },
+    created(){
+      var that = this;
+      var date=new Date();
+      var year=date.getFullYear();
+      this.$nextTick(() => {
+      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
+        'sessionid=' + localStorage.sessionid)
+        .then(function (response) {
+          that.userInfo=JSON.parse(response.data.data);
+          console.log(that.userInfo);
+          that.age=year-that.userInfo.id_card.substring(6,10)+'岁'
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } )},
     methods: {
       hideAll(){
         this.maskStatus = false;

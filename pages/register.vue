@@ -154,6 +154,7 @@
               localStorage.login = true;
               //顺便把sessionid放入localStorage
               localStorage.sessionid = data.data.sessionid;
+              localStorage.phoneNumber=JSON.parse(data.data.loanUser).phone_number;
               window.location.href = './infoFillIn';
             }
             that.$refs.ensure_btn.removeAttribute("disabled");

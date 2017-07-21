@@ -32,7 +32,7 @@
       </div>
       <div class="information-box">
         <div class="text">姓名</div>
-        <div class="content">蒋杨昌</div>
+        <div class="content">{{userInfo.real_name}}</div>
       </div>
       <div class="sex-box" @click="showSex">
         <div class="text">性别</div>
@@ -64,24 +64,41 @@
     <div class="bottom-information">
       <div class="information-box">
         <div class="text">身份证号</div>
-        <div class="nick-name">331004199306042515</div>
+        <div class="nick-name">{{userInfo.id_card}}</div>
       </div>
       <div class="information-box">
         <div class="text">手机号</div>
-        <div class="nick-name">18158500564</div>
+        <div class="nick-name">{{userInfo.phone_number}}</div>
       </div>
     </div>
   </section>
 </template>
 <script type="text/ecmascript">
+  import axios from 'axios'
   export default{
     data () {
       return {
+        userInfo:{},
         nameStatus: false,
         message: "",
         sexStatus: false,
-        sex:'未知'
+        sex:'',
+
       }
+    },
+    beforeMount(){
+      var that = this;
+      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
+        'sessionid=' + localStorage.sessionid)
+        .then(function (response) {
+          that.userInfo=JSON.parse(response.data.data);
+          that.message=that.userInfo.nickname;
+          that.sex=that.userInfo.gender;
+          console.log(that.userInfo);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     methods: {
       clearMessage: function () {
@@ -92,12 +109,33 @@
       },
       saveName:function () {
         this.nameStatus=false;
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/xhhApp/updateOrSave?'+
+          'nickname=' + that.message +
+          '&sessionid=' + localStorage.sessionid)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
       },
       showSex:function () {
         this.sexStatus=true
       },
       saveSex:function () {
-        this.sexStatus=false
+        this.sexStatus=false;
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/xhhApp/updateOrSave?'+
+          'gender=' + that.sex +
+          '&sessionid=' + localStorage.sessionid)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     }
   }

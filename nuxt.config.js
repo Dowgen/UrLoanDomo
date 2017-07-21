@@ -13,11 +13,11 @@ module.exports = {
       { hid: 'description', name: 'description', content: '优待管家，巴拉巴拉' }
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
     ]
   },
   plugins: [
-    { src: '~plugins/swiper.js', ssr: false }
+    { src: '~plugins/swiper.js', ssr: false },
   ],
 
   css: [

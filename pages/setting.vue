@@ -13,7 +13,7 @@
       <span class="text">服务与隐私条款</span>
       <img width="6" height="10" src="../static/main_profile_arrow.png"/>
     </div>
-    <div class="logout" >
+    <div class="logout" @click="logout" >
       退出登录
     </div>
     <transition name="move">
@@ -81,8 +81,11 @@
       },
       changeIndex (index) {
         this.currentIndex=index
+      },
+      logout () {
+          localStorage.sessionid=''
+          window.location='/register'
       }
-
     }
   }
 </script>

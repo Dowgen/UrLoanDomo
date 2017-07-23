@@ -17,7 +17,7 @@ module.exports = {
     ]
   },
   plugins: [
-    { src: '~plugins/swiper.js', ssr: false },
+    { src: '~plugins/swiper.js', ssr: false }
   ],
 
   css: [
@@ -36,8 +36,7 @@ module.exports = {
       'axios',
       'jquery',
       'toastr',
-      'swiper',
-      'Dropzone'
+      'swiper'
     ],
     /*
      ** Run ESLINT on save

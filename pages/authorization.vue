@@ -96,7 +96,9 @@
         accreditStatus: false,
         payStatus: false,
         picked: '',
-        userInfo:{}
+        userInfo:{},
+        startTime: 0,     /* 开始轮询交易结果的时间 */
+        queryTimer: 0     /* 轮询计时器 */
       }
     },
     created (){
@@ -161,27 +163,74 @@
       goPay (){
         this.payStatus=true
       },
-      openAliPay (){
+      openAliPay (){  /* 拉起阿里支付 */
+        var that = this;
+        var out_trade_no = Date.now() + Math.random().toString(36).substr(6);
+        sessionStorage.out_trade_no = out_trade_no;
         axios.get('http://120.27.198.97:8081/flower/w/payMent/wapPost?'
           + 'device_info=ios'
           + '&version=2.0.0'
           + '&nonce_str=nonce_str'       /* 随机字符串 */
-          + '&out_trade_no=' + Date.now() 
-          + Math.random().toString(36).substr(6)  /* 商户订单号 */
+          + '&out_trade_no=' +  out_trade_no  /* 商户订单号 */
           + '&no_credit=no_credit'       /* 是否屏蔽信用卡 */
           + '&body=优贷管家vip年费'      /* 商品描述 */
           + '&store_appid=10086'         /* 门店APPID */
           + '&attach=附加信息' 
           + '&total_fee=1'               /* 支付金额 */
         )
-        .then( res => alipay_wap(res.data.prepay_id,'/myAccount') )
+        .then( res => { alipay_wap(res.data.prepay_id, null);
+                        toastr.success('请稍后');
+                        that.hideAll();
+                        that.startTime = Date.now();
+                        that.queryTimer = setInterval(this.polling, 5000) })
         .catch( error => console.log(error) )
+      },
+      polling (){  /* 轮询支付结果 */
+        var that = this;
+        /* 超时判断,时长120秒 */
+        var time = (Date.now() - that.startTime)/1000;
+        if( time >= 60 ){
+          /* 等夏哲写撤销交易的接口 */
+          clearInterval( that.queryTimer );
+          toastr.warning('交易超时！请重新支付');
+          that.hideAll();
+        }else{ /* 继续轮询 */
+          that.queryAlipay();
+        }
+      },
+      queryAlipay (){  /* 查询支付结果 */
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/payMent//queryResult?out_trade_no='
+                  + sessionStorage.out_trade_no )
+        .then( res => 
+              {
+                /* 先得到trade_state */
+                var rs = res.data;
+                var trade_state = rs.match(/trade_state=(\S*),/)[1];
+                if( trade_state === 'USERPAYING'){ /* 等待用户付款 */
+                  console.log('等着吧')
+                }else if( trade_state === 'SUCCESS'){
+                  that.makeVipNo();
+                  location.href='/myAccount'
+                }else if( trade_state === 'CLOSED'){
+                  toastr.warning('交易已关闭，请重新支付');
+                }
+              })
+        .catch( err => console.warn('query:'+ err))
+      },
+      revokeAlipay (){  /* 撤销订单 */
+
+      },
+      makeVipNo (){     /* 生成会员籍号 */
+        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertRandomn?phoneNum=' 
+                  + localStorage.phoneNumber)
+        .then( res => console.log('makeVipNo:' + res))
+        .catch( err => console.log('makeVipNo:' + err))
       }
     }
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import url('~dropzone/dist/dropzone.css');
   @keyframes fade
     from{opacity: 0;}
     to{opacity: 1}

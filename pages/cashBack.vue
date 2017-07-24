@@ -115,10 +115,16 @@
       }
     },
     created () {
-      
+
     },
     mounted(){
       var that = this;
+      /* 每次点击上传图片按钮就清空现有的图片 */
+      $("#upfile").on('click',
+        function(){
+          this.value = null;
+          $('.upImg').remove();
+      })
       axios.get('http://120.27.198.97:8081/flower/w/youLoan/returnLoanList?'+
         'phoneNum=' + localStorage.phoneNumber)
         .then(function (response) {
@@ -135,23 +141,27 @@
       },
       submitApply() {
         var that = this;
-        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
-          'product_name=' + that.loanName +
-          '&money=' + that.loanMoney +
-          '&loan_period=' + that.duration +
-          '&phoneNum=' + localStorage.phoneNumber
-          )
-          .then(function (rs) {
-            console.log(rs);
-            if(rs.data.code == 0){
-              toastr.warning('用户重复添加产品!');
-            }else if(rs.data.code == 1){
-              toastr.success("信息保存成功！");
-            }
-          })
-          .catch(function (error) {
-            toastr.warning('信息保存失败，请重试!');
-          });
+        if(this.loanName == '' || this.loanMoney == '' || this.duration == ''){
+          toastr.warning('请先填写全部产品信息!');
+        }else{
+          axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
+            'product_name=' + that.loanName +
+            '&money=' + that.loanMoney +
+            '&loan_period=' + that.duration +
+            '&phoneNum=' + localStorage.phoneNumber
+            )
+            .then(function (rs) {
+              console.log(rs);
+              if(rs.data.code == 0){
+                toastr.warning('用户重复添加产品!');
+              }else if(rs.data.code == 1){
+                toastr.success("信息保存成功！");
+              }
+            })
+            .catch(function (error) {
+              toastr.warning('信息保存失败，请重试!');
+            });
+        }
       },
       hidePrompt() {
         this.promptStatus=false;
@@ -160,43 +170,51 @@
         this.promptStatus=true;
       },
       uploadImg() {
-        var fd = new FormData();
-        var imgLen = $("#upfile").get(0).files.length;
-        var file = ['img1','img2','img3'];
+        if(this.loanName == ''){
+          toastr.warning('请先填写产品名称!');
+        }else{
+          var fd = new FormData();
+          var imgLen = $("#upfile").get(0).files.length;
+          var file = ['img1','img2','img3'];
 
-        fd.append("upload", 1);
-        fd.append('product_name', this.loanName);
-        fd.append('phoneNum', localStorage.phoneNumber);
-        for (let i = 0; i < imgLen; ++i){
-          if(i === 3) break;
-          fd.append(file[i], $("#upfile").get(0).files[i]);
-        };
+          fd.append("upload", 1);
+          fd.append('product_name', this.loanName);
+          fd.append('phoneNum', localStorage.phoneNumber);
+          for (let i = 0; i < imgLen; ++i){
+            if(i === 3) break;
+            fd.append(file[i], $("#upfile").get(0).files[i]);
+          };
 
-        $.ajax({
-          url: "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
-          type: "POST",
-          processData: false,
-          contentType: false,
-          data: fd,
-          success: function(rs) {
-            if(rs.code == 1){
-              for(var i=0 ; i < imgLen; ++i){
-                if( i == 0){
-                  $('#proveImg').after(`<img style="width:50px;height:50px;" 
-                                         src='http://120.27.198.97:8081/flower${rs.Image1}'>`)
-                }else if( i == 1){
-                  $('#proveImg').after(`<img style="width:50px;height:50px;"
-                                         src='http://120.27.198.97:8081/flower${rs.Image2}'>`)
-                }else if(i == 2){
-                  $('#proveImg').after(`<img style="width:50px;height:50px;" 
-                                        src='http://120.27.198.97:8081/flower${rs.Image3}'>`)
+          $.ajax({
+            url: "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function(rs) {
+              if(rs.code == 1){
+                for(var i=0 ; i < imgLen; ++i){
+                  if( i == 0){
+                    $('#proveImg').after(`<img class="upImg" 
+                          style="width:50px;height:50px;margin-left:10px" 
+                          src='http://120.27.198.97:8081/flower${rs.Image1}'>`)
+                  }else if( i == 1){
+                    $('#proveImg').after(`<img class="upImg" 
+                          style="width:50px;height:50px;margin-left:10px"
+                          src='http://120.27.198.97:8081/flower${rs.Image2}'>`)
+                  }else if(i == 2){
+                    $('#proveImg').after(`<img class="upImg" 
+                          style="width:50px;height:50px;margin-left:10px" 
+                          src='http://120.27.198.97:8081/flower${rs.Image3}'>`)
+                  }
                 }
-              }              
-            }else if(rs.code == 0){
-              toastr.warning(rs.data);
+                toastr.success('图片提交成功!');              
+              }else if(rs.code == 0){
+                toastr.warning(rs.data);
+              }
             }
-          }
-        });
+          });
+        }
       }
     }
   }

@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="bottom-content">
-            <div class="member-number">会员籍号:<span class="number">12908763</span></div>
+            <div class="member-number">会员籍号:<span class="number">{{userInfo.membership_number}}</span></div>
             <div class="phone-number">手机号码:<span class="number">{{userInfo.phone_number}}</span></div>
           </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="banner in banners">
             <div class="product">
-              <img width="63" height="63" :src="banner.imgUrl" />
+              <img width="63" height="63" :src='banner.imgUrl' />
               <div class="product-name">{{banner.name}}</div>
               <div class="desc">
                 <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
@@ -127,7 +127,7 @@
         }
       }
     },
-    created(){
+    beforeMount(){
       var that = this;
       var date=new Date();
       var year=date.getFullYear();

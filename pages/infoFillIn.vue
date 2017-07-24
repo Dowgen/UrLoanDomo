@@ -195,6 +195,7 @@
           border none
           text-align end
           color #828389
+          font-size 13px
         .job
           color #828389
           font-size 0

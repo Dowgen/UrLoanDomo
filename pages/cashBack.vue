@@ -65,8 +65,8 @@
           <p>请上传您本人在贷款此产品时相关的证明截图(不超过3张),
             如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
           <div class="add-pic">
-            <img src="../static/add_pic.png">
-            <input id="upfile22" type="file" name="upfile22" multiple="multiple" accept="image/png,image/jpg" class="accept">
+            <img id="proveImg" src="../static/add_pic.png">
+            <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change='uploadImg'>
           </div>
         </div>
         <div class="submit" @click="submitApply">
@@ -77,8 +77,33 @@
   </section>
 </template>
 <script type="text/ecmascript">
+  import toastr from 'toastr'
   import axios from 'axios'
+
+  // 弹窗插件配置
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    progressBar: false,
+    positionClass: "toast-top-full-width",
+    onclick: null,
+    showDuration: "200",
+    hideDuration: "800",
+    timeOut: "1500",
+    extendedTimeOut: "800",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+  };
   export default{
+    head: {
+      script: [
+        { src: 'http://flowercredit.cn/static/jhcommon/js/jQuery.min.js' },
+        /*{ src: 'http://flowercredit.cn/static/jhcommon/js/uploader/upload.js' },
+        { src: 'http://flowercredit.cn/static/jhcommon/js/uploader/jquery.ajaxfileupload.js' }*/
+      ]
+    },
     data () {
       return {
         promptStatus:true,
@@ -89,8 +114,17 @@
         cashBackList:[]
       }
     },
+    created () {
+
+    },
     mounted(){
       var that = this;
+      /* 每次点击上传图片按钮就清空现有的图片 */
+      $("#upfile").on('click',
+        function(){
+          this.value = null;
+          $('.upImg').remove();
+      })
       axios.get('http://120.27.198.97:8081/flower/w/youLoan/returnLoanList?'+
         'phoneNum=' + localStorage.phoneNumber)
         .then(function (response) {
@@ -107,24 +141,80 @@
       },
       submitApply() {
         var that = this;
-        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
-          'product_name=' + that.loanName +
-          '&money=' + that.loanMoney +
-          '&loan_period=' + that.duration +
-          '&phoneNum=' + localStorage.phoneNumber
-          )
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        if(this.loanName == '' || this.loanMoney == '' || this.duration == ''){
+          toastr.warning('请先填写全部产品信息!');
+        }else{
+          axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
+            'product_name=' + that.loanName +
+            '&money=' + that.loanMoney +
+            '&loan_period=' + that.duration +
+            '&phoneNum=' + localStorage.phoneNumber
+            )
+            .then(function (rs) {
+              console.log(rs);
+              if(rs.data.code == 0){
+                toastr.warning('用户重复添加产品!');
+              }else if(rs.data.code == 1){
+                toastr.success("信息保存成功！");
+              }
+            })
+            .catch(function (error) {
+              toastr.warning('信息保存失败，请重试!');
+            });
+        }
       },
       hidePrompt() {
         this.promptStatus=false;
       },
       showPrompt() {
         this.promptStatus=true;
+      },
+      uploadImg() {
+        if(this.loanName == ''){
+          toastr.warning('请先填写产品名称!');
+        }else{
+          var fd = new FormData();
+          var imgLen = $("#upfile").get(0).files.length;
+          var file = ['img1','img2','img3'];
+
+          fd.append("upload", 1);
+          fd.append('product_name', this.loanName);
+          fd.append('phoneNum', localStorage.phoneNumber);
+          for (let i = 0; i < imgLen; ++i){
+            if(i === 3) break;
+            fd.append(file[i], $("#upfile").get(0).files[i]);
+          };
+
+          $.ajax({
+            url: "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function(rs) {
+              if(rs.code == 1){
+                for(var i=0 ; i < imgLen; ++i){
+                  if( i == 0){
+                    $('#proveImg').after(`<img class="upImg" 
+                          style="width:50px;height:50px;margin-left:10px" 
+                          src='http://120.27.198.97:8081/flower${rs.Image1}'>`)
+                  }else if( i == 1){
+                    $('#proveImg').after(`<img class="upImg" 
+                          style="width:50px;height:50px;margin-left:10px"
+                          src='http://120.27.198.97:8081/flower${rs.Image2}'>`)
+                  }else if(i == 2){
+                    $('#proveImg').after(`<img class="upImg" 
+                          style="width:50px;height:50px;margin-left:10px" 
+                          src='http://120.27.198.97:8081/flower${rs.Image3}'>`)
+                  }
+                }
+                toastr.success('图片提交成功!');              
+              }else if(rs.code == 0){
+                toastr.warning(rs.data);
+              }
+            }
+          });
+        }
       }
     }
   }
@@ -286,10 +376,12 @@
       .add-pic
         position relative
         margin-top 15px
+        display flex
+        align-items center
         img
           width 50px
           height 50px
-        input
+        #upfile
           position: absolute;
           left: 0;
           height: 50px;

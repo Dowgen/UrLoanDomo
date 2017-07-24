@@ -6,6 +6,7 @@
         <div class="text">头像</div>
         <div class="right">
           <img width="70" height="70" class="avatar" src="../static/main_profilephoto_icon.png"/>
+          <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change='uploadImg'>
           <img width="6" height="10" class="right-icon" src="../static/main_profile_arrow.png">
         </div>
       </div>
@@ -28,7 +29,7 @@
       </transition>
       <div class="information-box">
         <div class="text">会籍号</div>
-        <div class="content">12908763</div>
+        <div class="content">{{userInfo.membership_number}}</div>
       </div>
       <div class="information-box">
         <div class="text">姓名</div>
@@ -76,6 +77,11 @@
 <script type="text/ecmascript">
   import axios from 'axios'
   export default{
+    head: {
+      script: [
+        { src: 'http://flowercredit.cn/static/jhcommon/js/jQuery.min.js' }
+      ]
+    },
     data () {
       return {
         userInfo:{},
@@ -120,7 +126,6 @@
           .catch(function (error) {
             console.log(error);
           });
-
       },
       showSex:function () {
         this.sexStatus=true
@@ -137,6 +142,22 @@
           .catch(function (error) {
             console.log(error);
           });
+      },
+      uploadImg() {
+        var fd = new FormData();
+        fd.append("upload", 1);
+        fd.append('upfile', $("#upfile").get(0).files[0]);
+        fd.append('sessionid', localStorage.sessionid);
+        $.ajax({
+          url: "http://120.27.198.97:8081/flower/w/xhhApp/uploadImage",
+          type: "POST",
+          processData: false,
+          contentType: false,
+          data: fd,
+          success: function(rs) {
+            $('.avatar').attr('src',"http://120.27.198.97:8081/flower"+rs.data)
+          }
+        });
       }
     }
   }
@@ -167,8 +188,15 @@
         .right
           display flex
           align-items center
+          position: relative
           img
             margin-left 10px
+          #upfile
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
       .nick-name-box
         display flex
         justify-content space-between

@@ -154,7 +154,7 @@
           contentType: false,
           data: fd,
           success: function(rs) {
-            $('.avatar').attr('src',"http://120.27.198.97:8081/flower"+rs.data)
+            $('.avatar').attr('src',"http://120.27.198.97:8081/flower"+rs.data);
           }
         });
       }

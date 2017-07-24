@@ -36,7 +36,6 @@
       axios.get('http://120.27.198.97:8081/flower/w/youLoan/loanList')
         .then(function (response) {
           that.productList=response.data.list
-          console.log(response.data.list);
         })
         .catch(function (error) {
           console.log(error);
@@ -55,8 +54,8 @@
     width 100%
     height 100%
     min-height 100vh
-    background url("../static/js.png")
-    background-attachment: fixed;
+    background-image url("../static/js.png")
+    background-attachment: fixed
     padding-top 14px
     .product
       position relative

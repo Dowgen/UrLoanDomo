@@ -189,7 +189,7 @@
         var that = this;
         /* 超时判断,时长120秒 */
         var time = (Date.now() - that.startTime)/1000;
-        if( time >= 60 ){
+        if( time >= 120 ){
           /* 等夏哲写撤销交易的接口 */
           toastr.warning('交易超时！请重新支付');
           this.accreditStatus = true;

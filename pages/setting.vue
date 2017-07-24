@@ -1,17 +1,19 @@
 <template>
   <section class="container">
     <div class="grey"></div>
-    <div class="setting-box" @click="question">
-      <span class="text">常见问题</span>
-      <img width="6" height="10" src="../static/main_profile_arrow.png"/>
-    </div>
-    <div class="setting-box" @click="contact">
-      <span class="text">联系我们</span>
-      <img width="6" height="10" src="../static/main_profile_arrow.png"/>
-    </div>
-    <div class="setting-box" @click="service">
-      <span class="text">服务与隐私条款</span>
-      <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+    <div class="content">
+      <div class="setting-box" @click="question">
+        <span class="text">常见问题</span>
+        <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+      </div>
+      <div class="setting-box" @click="contact">
+        <span class="text">联系我们</span>
+        <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+      </div>
+      <div class="setting-box" @click="service">
+        <span class="text">服务与隐私条款</span>
+        <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+      </div>
     </div>
     <div class="logout" @click="logout" >
       退出登录
@@ -99,14 +101,20 @@
       width 100%
       height 10px
       background-color #ECEDEE
-    .setting-box
-      display flex
-      justify-content space-between
-      padding 0 20px
-      border-bottom 1px solid #CBC7CB
-      align-items center
-      height 48px
+    .content
       background #ffffff
+      .setting-box
+        display flex
+        justify-content space-between
+        padding-right 20px
+        margin-left 20px
+        border-bottom 1px solid #ECEDEE
+        align-items center
+        height 48px
+        background #ffffff
+      .setting-box:last-child
+        padding-left 20px
+        margin-left 0
     .logout
       width 60vw
       margin 0 auto

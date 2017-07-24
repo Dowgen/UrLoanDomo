@@ -36,7 +36,7 @@
       axios.get('http://120.27.198.97:8081/flower/w/youLoan/loanList')
         .then(function (response) {
           that.productList=response.data.list
-          console.log(response.data.list);
+//          console.log(response.data.list);
         })
         .catch(function (error) {
           console.log(error);

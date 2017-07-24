@@ -1,13 +1,15 @@
 <template>
   <section class="container">
     <div class="grey"></div>
-    <div class="advice-box" @click="advice">
-      <span class="text">建议与反馈</span>
-      <img width="6" height="10" src="../static/main_profile_arrow.png"/>
-    </div>
-    <div class="advice-box" @click="complain">
-      <span class="text">投诉</span>
-      <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+    <div class="content">
+      <div class="advice-box" @click="advice">
+        <span class="text">建议与反馈</span>
+        <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+      </div>
+      <div class="advice-box" @click="complain">
+        <span class="text">投诉</span>
+        <img width="6" height="10" src="../static/main_profile_arrow.png"/>
+      </div>
     </div>
     <div class="company">
       杭州炬合网络科技有限公司
@@ -17,13 +19,13 @@
     <transition name="move">
       <div class="advice-content" v-show="adviceStatus">
           <textarea v-model="adviceText" class="advice-text" placeholder="您的意见和建议是我们优贷管家进步的动力，请尽情告诉我们，我们一定会加强完善，谢谢！"></textarea>
-          <input class="submit-btn" @click="submitAdvice" type="submit" value="提交" />
+        <div class="submit-btn" @click="submitAdvice">提交</div>
       </div>
     </transition>
     <transition name="move">
       <div class="complain-content" v-show="complainStatus">
           <textarea v-model="complainText" class="complain-text" placeholder="您的意见和建议是我们优贷管家进步的动力，请尽情告诉我们，我们一定会加强完善，谢谢！"></textarea>
-          <input class="submit-btn" @click="submitComplain" type="submit" value="提交" />
+        <div class="submit-btn" @click="submitComplain">提交</div>
       </div>
     </transition>
   </section>
@@ -47,7 +49,6 @@
         'sessionid=' + localStorage.sessionid)
         .then(function (response) {
           that.userInfo=JSON.parse(response.data.data);
-          console.log(that.userInfo);
         })
         .catch(function (error) {
           console.log(error);
@@ -68,7 +69,7 @@
           '&phoneNumber=' + that.userInfo.phone_number +
           '&content=' + that.adviceText)
           .then(function (response) {
-            console.log(response);
+//            console.log(response);
           })
           .catch(function (error) {
             console.log(error);
@@ -101,14 +102,20 @@
       width 100%
       height 10px
       background-color #ECEDEE
-    .advice-box
-      display flex
-      justify-content space-between
-      padding 0 20px
-      border-bottom 1px solid #CBC7CB
-      align-items center
-      height 48px
+    .content
       background #ffffff
+      .advice-box
+        display flex
+        justify-content space-between
+        padding-right 20px
+        margin-left 20px
+        border-bottom 1px solid #ECEDEE
+        align-items center
+        height 48px
+        background #ffffff
+      .advice-box:last-child
+        padding-left 20px
+        margin-left 0
     .company
       width 100%
       height 50px
@@ -145,6 +152,7 @@
         position absolute
         width 60vw
         height 35px
+        line-height 35px
         left 20vw
         bottom 17px
         background #bdaa73
@@ -152,6 +160,7 @@
         color #ffffff
         text-align center
         font-size 13px
+
     .complain-content
       position fixed
       top 0
@@ -178,6 +187,7 @@
         position absolute
         width 60vw
         height 35px
+        line-height 35px
         left 20vw
         bottom 17px
         background #bdaa73

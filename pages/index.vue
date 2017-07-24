@@ -58,10 +58,29 @@
         verifyCode: null,       // 用户输入的 验证码
         sendMessage: false,     // 决定显示文字还是倒计时
         countdown: 60,          // 倒计时数
-        runCount: true          // 是否正在倒计时
+        runCount: true         // 是否正在倒计时
       }
     },
     methods:{
+      // 判断用户是否会员,决定跳转至哪个页面
+      jumpUrl (sessionid) {
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
+        'sessionid=' + sessionid)
+        .then( rs => {
+          that.userInfo = JSON.parse(rs.data.data);
+          var vipNo = that.userInfo.membership_number;
+          console.log('vipNo:'+vipNo);
+          if( vipNo != null || vipNo != '' || 
+              vipNo != undefined || vipNo != 'undefined')
+            window.location.href = './myAccount';
+          else
+            window.location.href = './infoFillIn';
+        })
+        .catch( err => {
+          console.log(err);
+        });
+      },
       // 开始倒计时
       startCount () {
         if(this.runCount){
@@ -155,7 +174,8 @@
               //顺便把sessionid放入localStorage
               localStorage.sessionid = data.data.sessionid;
               localStorage.phoneNumber=JSON.parse(data.data.loanUser).phone_number;
-              window.location.href = './infoFillIn';
+              //跳转
+              that.jumpUrl(localStorage.sessionid);
             }
             that.$refs.ensure_btn.removeAttribute("disabled");
             that.$refs.ensure_btn.style.background = "#bdaa73";

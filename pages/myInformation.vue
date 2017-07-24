@@ -65,7 +65,7 @@
     <div class="bottom-information">
       <div class="information-box">
         <div class="text">身份证号</div>
-        <div class="nick-name">{{userInfo.id_card}}</div>
+        <div class="nick-name">{{idCard}}</div>
       </div>
       <div class="information-box">
         <div class="text">手机号</div>
@@ -89,10 +89,10 @@
         message: "",
         sexStatus: false,
         sex:'',
-
+        idCard: '',
       }
     },
-    beforeMount(){
+    mounted(){
       var that = this;
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
@@ -100,7 +100,8 @@
           that.userInfo=JSON.parse(response.data.data);
           that.message=that.userInfo.nickname;
           that.sex=that.userInfo.gender;
-          console.log(that.userInfo);
+          that.idCard=that.userInfo.id_card.substr(0,4)+'*****'+that.userInfo.id_card.substr(14,4)
+//          console.log(that.userInfo);
         })
         .catch(function (error) {
           console.log(error);

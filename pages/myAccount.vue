@@ -8,7 +8,11 @@
               <img width="70" height="70" src="../static/main_profilephoto_icon.png"/>
             </div>
             <div class="content">
-              <div class="name">{{userInfo.real_name}}</div>
+              <div class="name">
+                {{userInfo.real_name}}
+                <img v-if="manStatus" width="12" height="12" src="../static/man.png"/>
+                <img v-if="womanStatus" width="12" height="12" src="../static/woman.png"/>
+              </div>
               <div class="age">{{age}}</div>
             </div>
           </div>
@@ -83,6 +87,8 @@
     data () {
       return {
         maskStatus: true,
+        manStatus: false,
+        womanStatus: false,
         userInfo:{},
         age: '',
         banners: [
@@ -132,6 +138,11 @@
           that.userInfo=JSON.parse(response.data.data);
           console.log(that.userInfo);
           that.age=year-that.userInfo.id_card.substring(6,10)+'岁'
+          if (that.userInfo.gender=='男'){
+              that.manStatus=true
+          }else if (that.userInfo.gender=='女'){
+            that.womanStatus=true
+          }
         })
         .catch(function (error) {
           console.log(error);

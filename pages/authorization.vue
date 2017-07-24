@@ -191,9 +191,10 @@
         var time = (Date.now() - that.startTime)/1000;
         if( time >= 60 ){
           /* 等夏哲写撤销交易的接口 */
-          clearInterval( that.queryTimer );
           toastr.warning('交易超时！请重新支付');
-          that.hideAll();
+          this.accreditStatus = true;
+          that.payStatus = true;
+          clearInterval( that.queryTimer );
         }else{ /* 继续轮询 */
           that.queryAlipay();
         }
@@ -214,6 +215,8 @@
                   location.href='/myAccount'
                 }else if( trade_state === 'CLOSED'){
                   toastr.warning('交易已关闭，请重新支付');
+                }else if( trade_state === 'REVERSE'){
+                  toastr.warning('订单已撤销，请重新支付');
                 }
               })
         .catch( err => console.warn('query:'+ err))

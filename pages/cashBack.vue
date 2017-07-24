@@ -66,8 +66,7 @@
             如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
           <div class="add-pic">
             <img id="proveImg" src="../static/add_pic.png">
-            <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept">
-            <input type="button" id="upJQuery" value="上传"></input>
+            <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change='uploadImg'>
           </div>
         </div>
         <div class="submit" @click="submitApply">
@@ -116,9 +115,7 @@
       }
     },
     created () {
-      if (process.browser) {
-        $('#upJQuery').on('click', this.uploadImg);
-      }
+      
     },
     mounted(){
       var that = this;
@@ -166,11 +163,15 @@
         var fd = new FormData();
         var imgLen = $("#upfile").get(0).files.length;
         var file = ['img1','img2','img3'];
+
         fd.append("upload", 1);
+        fd.append('product_name', this.loanName);
+        fd.append('phoneNum', localStorage.phoneNumber);
         for (let i = 0; i < imgLen; ++i){
           if(i === 3) break;
           fd.append(file[i], $("#upfile").get(0).files[i]);
-        }
+        };
+
         $.ajax({
           url: "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
           type: "POST",
@@ -181,13 +182,13 @@
             if(rs.code == 1){
               for(var i=0 ; i < imgLen; ++i){
                 if( i == 0){
-                  $('#proveImg').after(`<img style="width:50px;height:50px" 
+                  $('#proveImg').after(`<img style="width:50px;height:50px;" 
                                          src='http://120.27.198.97:8081/flower${rs.Image1}'>`)
                 }else if( i == 1){
-                  $('#proveImg').after(`<img style="width:50px;height:50px"
+                  $('#proveImg').after(`<img style="width:50px;height:50px;"
                                          src='http://120.27.198.97:8081/flower${rs.Image2}'>`)
                 }else if(i == 2){
-                  $('#proveImg').after(`<img style="width:50px;height:50px" 
+                  $('#proveImg').after(`<img style="width:50px;height:50px;" 
                                         src='http://120.27.198.97:8081/flower${rs.Image3}'>`)
                 }
               }              
@@ -368,24 +369,6 @@
           height: 50px;
           width: 50px;
           opacity: 0;
-        #upJQuery
-          color: #666;
-          background-color: #EEE;
-          border-color: #EEE;
-          font-weight: 300;
-          font-size: 16px;
-          font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-          text-decoration: none;
-          text-align: center;
-          line-height: 40px;
-          height: 40px;
-          padding: 0 30px;
-          margin-left 20px;
-          display: inline-block;
-          appearance: none;
-          cursor: pointer;
-          border: none;
-          box-sizing: border-box;
     .submit
       width 100%
       display flex

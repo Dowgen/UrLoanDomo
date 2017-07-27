@@ -66,10 +66,10 @@
             如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
           <div class="add-pic">
             <img id="proveImg" src="../static/add_pic.png">
-            <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change='uploadImg'>
+            <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change="preivewImg">
           </div>
         </div>
-        <div class="submit" @click="submitApply">
+        <div class="submit" @click="confirmApply">
           <div>提交信息</div>
         </div>
       </div>
@@ -110,7 +110,7 @@
         loanStatus: false,
         loanName: '',
         loanMoney:'',
-        duration:'',
+        duration:'1个月',
         cashBackList:[]
       }
     },
@@ -139,82 +139,93 @@
       loan () {
         this.loanStatus = true;
       },
-      submitApply() {
-        var that = this;
-        if(this.loanName == '' || this.loanMoney == '' || this.duration == ''){
-          toastr.warning('请先填写全部产品信息!');
-        }else{
-          axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
-            'product_name=' + that.loanName +
-            '&money=' + that.loanMoney +
-            '&loan_period=' + that.duration +
-            '&phoneNum=' + localStorage.phoneNumber
-            )
-            .then(function (rs) {
-              console.log(rs);
-              if(rs.data.code == 0){
-                toastr.warning('用户重复添加产品!');
-              }else if(rs.data.code == 1){
-                toastr.success("信息保存成功！");
-              }
-            })
-            .catch(function (error) {
-              toastr.warning('信息保存失败，请重试!');
-            });
-        }
-      },
       hidePrompt() {
         this.promptStatus=false;
       },
       showPrompt() {
         this.promptStatus=true;
       },
-      uploadImg() {
-        if(this.loanName == ''){
-          toastr.warning('请先填写产品名称!');
+      confirmApply() {
+        if(this.loanName == '' || this.loanMoney == '' || this.duration == '' ||
+           $("#upfile").get(0).files.length == 0 ){
+          toastr.warning('请先填写全部产品信息!');
         }else{
-          var fd = new FormData();
-          var imgLen = $("#upfile").get(0).files.length;
-          var file = ['img1','img2','img3'];
-
-          fd.append("upload", 1);
-          fd.append('product_name', this.loanName);
-          fd.append('phoneNum', localStorage.phoneNumber);
-          for (let i = 0; i < imgLen; ++i){
-            if(i === 3) break;
-            fd.append(file[i], $("#upfile").get(0).files[i]);
-          };
-
-          $.ajax({
-            url: "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
-            type: "POST",
-            processData: false,
-            contentType: false,
-            data: fd,
-            success: function(rs) {
-              if(rs.code == 1){
-                for(var i=0 ; i < imgLen; ++i){
-                  if( i == 0){
-                    $('#proveImg').after(`<img class="upImg" 
-                          style="width:50px;height:50px;margin-left:10px" 
-                          src='http://120.27.198.97:8081/flower${rs.Image1}'>`)
-                  }else if( i == 1){
-                    $('#proveImg').after(`<img class="upImg" 
-                          style="width:50px;height:50px;margin-left:10px"
-                          src='http://120.27.198.97:8081/flower${rs.Image2}'>`)
-                  }else if(i == 2){
-                    $('#proveImg').after(`<img class="upImg" 
-                          style="width:50px;height:50px;margin-left:10px" 
-                          src='http://120.27.198.97:8081/flower${rs.Image3}'>`)
-                  }
-                }
-                toastr.success('图片提交成功!');              
-              }else if(rs.code == 0){
-                toastr.warning(rs.data);
-              }
-            }
-          });
+          var cf = confirm('一旦提交无法更改，是否确认提交')
+          if( cf ){
+            this.submitApply();
+          }else{
+            /* nothing */
+          }
         }
+      },
+      submitApply() {
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertReturnProduct?'+
+          'product_name=' + that.loanName +
+          '&money=' + that.loanMoney +
+          '&loan_period=' + that.duration +
+          '&phoneNum=' + localStorage.phoneNumber
+          )
+          .then(function (rs) {
+            console.log(rs);
+            if(rs.data.code == 0){
+              toastr.warning('用户重复添加产品!');
+            }else if(rs.data.code == 1){
+              /* 保存产品后再保存图片 */
+              that.uploadImg();
+            }
+          })
+          .catch(function (error) {
+            toastr.warning('信息保存失败，请重试!');
+          });
+      },
+      preivewImg() {
+        /* 用fileReader实现图片预览 */
+        var files = $("#upfile").get(0).files;
+        for(var i=0 ; i < files.length; ++i){
+          if(i == 3){
+            break;
+          }else{
+            (function(file) {
+              var name = file.name;
+              var reader = new FileReader();  
+              reader.onload = function(e) {  
+                  $('#proveImg').after(`<img class="upImg" 
+                    style="width:50px;height:50px;margin-left:10px" 
+                    src='${e.target.result}'>`) 
+              }
+              reader.readAsDataURL(file, "UTF-8");
+            })( files[i] );
+          }
+        }
+      },
+      uploadImg() {
+        var fd = new FormData();
+        var imgLen = $("#upfile").get(0).files.length;
+        var file = ['img1','img2','img3'];
+
+        fd.append("upload", 1);
+        fd.append('product_name', this.loanName);
+        fd.append('phoneNum', localStorage.phoneNumber);
+        for (let i = 0; i < imgLen; ++i){
+          if(i === 3) break;
+          fd.append(file[i], $("#upfile").get(0).files[i]);
+        };
+
+        $.ajax({
+          url: "http://120.27.198.97:8081/flower/w/youLoan/uploadApplyImage",
+          type: "POST",
+          processData: false,
+          contentType: false,
+          data: fd,
+          success: function(rs) {
+            if(rs.code == 1){
+              toastr.success("返利申请成功！");            
+            }else if(rs.code == 0){
+              toastr.warning(rs.data);
+            }
+          }
+        });
       }
     }
   }
@@ -225,7 +236,7 @@
     width 100%
     min-height 100vh
     height 100%
-    background url("../static/js.png")
+    background-image url("../static/js.png")
     background-attachment: fixed
     padding-top 14px
     .add
@@ -362,8 +373,17 @@
           text-align end
           color #c6c6cB
         .select-time
+          vertical-align middle
+          text-transform none
+          outline 0
           border none
-          outline none
+          font-size 13px
+          appearance none
+          -moz-appearance none
+          -webkit-appearance none
+          padding-right 8px
+          background url(../static/arrow_down.png) no-repeat scroll right center transparent
+          margin-right 2px
     .pic-con
       width 100%
       padding 10px 16px

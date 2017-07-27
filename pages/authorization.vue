@@ -182,47 +182,71 @@
                         toastr.success('请稍后');
                         that.hideAll();
                         that.startTime = Date.now();
-                        that.queryTimer = setInterval(this.polling, 5000) })
+                        that.queryTimer = setInterval(this.queryAlipay, 5000) })
         .catch( error => console.log(error) )
-      },
-      polling (){  /* 轮询支付结果 */
-        var that = this;
-        /* 超时判断,时长120秒 */
-        var time = (Date.now() - that.startTime)/1000;
-        if( time >= 60 ){
-          /* 等夏哲写撤销交易的接口 */
-          toastr.warning('交易超时！请重新支付');
-          this.accreditStatus = true;
-          that.payStatus = true;
-          clearInterval( that.queryTimer );
-        }else{ /* 继续轮询 */
-          that.queryAlipay();
-        }
       },
       queryAlipay (){  /* 查询支付结果 */
         var that = this;
-        axios.get('http://120.27.198.97:8081/flower/w/payMent//queryResult?out_trade_no='
+        axios.get('http://120.27.198.97:8081/flower/w/payMent/queryResult?out_trade_no='
                   + sessionStorage.out_trade_no )
         .then( res => 
               {
-                /* 先得到trade_state */
+                /* 这里遵循支付文档流程编写 */
                 var rs = res.data;
                 var trade_state = rs.match(/trade_state=(\S*),/)[1];
-                if( trade_state === 'USERPAYING'){ /* 等待用户付款 */
-                  console.log('等着吧')
-                }else if( trade_state === 'SUCCESS'){
-                  that.makeVipNo();
-                  location.href='/myAccount'
-                }else if( trade_state === 'CLOSED'){
-                  toastr.warning('交易已关闭，请重新支付');
-                }else if( trade_state === 'REVERSE'){
-                  toastr.warning('订单已撤销，请重新支付');
+                var return_code = rs.match(/return_code=(\S*),/)[1];
+                var result_code = rs.match(/result_code=(\S*),/)[1];
+                if( return_code === 'SUCCESS'){  /* 通信标识 */
+                  if( result_code === 'SUCCESS'){  /* 业务结果 */
+                    if( trade_state === 'USERPAYING'){ /* 等待用户付款 */
+                      console.log('继续轮询')
+                      if( ((Date.now() - that.startTime)/1000) >= 20){
+                        /* 交易超时，撤销订单 */
+                        that.revokeAlipay();
+                        toastr.warning('交易超时！请重新支付');
+                        this.accreditStatus = true;
+                        that.payStatus = true;
+                        clearInterval( that.queryTimer );
+                      }
+                    }else if( trade_state === 'SUCCESS'){
+                      that.makeVipNo();
+                      location.href='/myAccount'
+                    }else if( trade_state === 'CLOSED'){
+                      toastr.warning('交易已关闭，请重新支付');
+                    }else if( trade_state === 'REVERSE'){
+                      toastr.warning('订单已撤销，请重新支付');
+                    } 
+                  }else{
+                    toastr.warning('发起支付失败，请重试!');
+                  }
+                }else{
+                  toastr.warning('通信失败，请重试!');
                 }
               })
         .catch( err => console.warn('query:'+ err))
       },
       revokeAlipay (){  /* 撤销订单 */
-
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/payMent/cancelOrder?out_trade_no='
+                  + sessionStorage.out_trade_no )
+        .then( res => 
+              {
+                /* 这里遵循支付文档流程编写 */
+                var rs = res.data;
+                console.log('rs:'+rs);
+                var return_code = rs.match(/return_code=(\S*),/)[1];
+                var result_code = rs.match(/result_code=(\S*),/)[1];
+                if( return_code === 'SUCCESS'){  /* 通信标识 */
+                  if( result_code === 'SUCCESS'){  /* 业务结果 */
+                    console.log('订单撤销成功!');
+                  }else if( result_code === 'FAIL'){
+                    /* recall */
+                  }
+                }else{
+                  toastr.warning('通信失败，请重试!');
+                }
+              })
+        .catch( err => console.warn('revoke:'+ err))
       },
       makeVipNo (){     /* 生成会员籍号 */
         axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertRandomn?phoneNum=' 

@@ -5,7 +5,7 @@
       <div class="avatar-box">
         <div class="text">头像</div>
         <div class="right">
-          <img width="70" height="70" class="avatar" src="../static/main_profilephoto_icon.png"/>
+          <img width="70" height="70" class="avatar" :src="avatar"/>
           <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change='uploadImg'>
           <img width="6" height="10" class="right-icon" src="../static/main_profile_arrow.png">
         </div>
@@ -90,6 +90,7 @@
         sexStatus: false,
         sex:'',
         idCard: '',
+        avatar:''
       }
     },
     mounted(){
@@ -102,6 +103,8 @@
           that.sex=that.userInfo.gender;
           that.idCard=that.userInfo.id_card.substr(0,4)+'*****'+that.userInfo.id_card.substr(14,4)
 //          console.log(that.userInfo);
+          that.avatar='http://120.27.198.97:8081/flower'+that.userInfo.avatar
+          console.log(that.avatar)
         })
         .catch(function (error) {
           console.log(error);

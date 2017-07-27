@@ -5,7 +5,7 @@
         <div class="information">
           <div class="top-information">
             <div class="avatar">
-              <img width="70" height="70" src="../static/main_profilephoto_icon.png"/>
+              <img width="70" height="70" :src="avatar"/>
             </div>
             <div class="content">
               <div class="name">
@@ -91,6 +91,7 @@
         womanStatus: false,
         userInfo:{},
         age: '',
+        avatar:'',
         banners: [
           {
             imgUrl: './main_profilephoto_icon.png',
@@ -137,6 +138,7 @@
         .then(function (response) {
           that.userInfo=JSON.parse(response.data.data);
           console.log(that.userInfo);
+          that.avatar='http://120.27.198.97:8081/flower'+that.userInfo.avatar
           that.age=year-that.userInfo.id_card.substring(6,10)+'岁'
           if (that.userInfo.gender=='男'){
               that.manStatus=true

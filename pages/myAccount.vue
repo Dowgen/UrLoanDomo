@@ -122,6 +122,9 @@
           initialSlide: 0,
           loop: true,
           pagination: '.swiper-pagination',
+          paginationBulletRender: function (swiper, index, className) {
+            return '<span style="background:#c1a96b" class="' + className + '"></span>';
+          },
           onSlideChangeEnd: swiper => {
             console.log('onSlideChangeEnd', swiper.realIndex)
           }
@@ -243,6 +246,8 @@
             color #828389
     .recommend
       z-index 10
+      .swiper-pagination-bullet-active
+        background #C1A96B
       .global-mask
         width 100%
         height 58vh

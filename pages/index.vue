@@ -1,7 +1,7 @@
 <template>
   <div id="bottom">
     <div class="d-con-con dialog-container" >
-      <div class="title">登录</div>
+      <div class="title">注册/登录</div>
       <div class="user">
         <input v-model="phoneNum" placeholder="请输入手机号">
         <div type="default" class="d-button" @click="sendVerify" ref="d_btn">
@@ -71,7 +71,7 @@
           that.userInfo = JSON.parse(rs.data.data);
           var vipNo = that.userInfo.membership_number;
           console.log('vipNo:'+vipNo);
-          if( vipNo != null || vipNo != '' || 
+          if( vipNo != null || vipNo != '' ||
               vipNo != undefined || vipNo != 'undefined')
             window.location.href = './myAccount';
           else
@@ -222,7 +222,7 @@
   .title{
     margin:60px auto;
     height:50px;
-    font-size: 25px;
+    font-size: 22px;
     color: #bdaa73;
   }
   .d-con-con .user, .d-con-con .sendCode{

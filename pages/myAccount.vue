@@ -122,6 +122,9 @@
           initialSlide: 0,
           loop: true,
           pagination: '.swiper-pagination',
+          paginationBulletRender: function (swiper, index, className) {
+              return '<span style="background:#1abc9c" class="' + className + '"></span>';
+          },
           onSlideChangeEnd: swiper => {
             console.log('onSlideChangeEnd', swiper.realIndex)
           }
@@ -159,6 +162,8 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .swiper-pagination-bullet-active
+    background black
   .container
     position relative
     width 100%

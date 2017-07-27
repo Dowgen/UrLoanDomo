@@ -169,12 +169,7 @@
               toastr.success("验证成功！");
               that.init();
               that.user_info = JSON.parse(data.data.loanUser);
-              that.login = true;
-              /*localStorage.user_info = data.data.loanUser; 不再用localStorage保存和获取个人信息，改为从后台调用 */
-              localStorage.login = true;
-              //顺便把sessionid放入localStorage
-              localStorage.sessionid = data.data.sessionid;
-              localStorage.phoneNumber=JSON.parse(data.data.loanUser).phone_number;
+              that.setCookie(data.data);
               //跳转
               that.jumpUrl(localStorage.sessionid);
             }
@@ -187,6 +182,15 @@
             that.$refs.ensure_btn.removeAttribute("disabled");
             that.$refs.ensure_btn.style.background = "#bdaa73";
           });
+      },
+      //验证成功后设置localStorage
+      setCookie (data){
+          localStorage.login = true;
+          /*localStorage.user_info = data.loanUser; 不再用localStorage保存和获取个人信息，改为从后台调用 */
+          localStorage.sessionid = data.sessionid;
+          localStorage.phoneNumber=JSON.parse(data.loanUser).phone_number;
+          /* 设置登录时间，用于避免用户反复登录 */
+          localStorage.lastLoginTime = Date.now();
       },
       //按钮重置
       resetBtn (){

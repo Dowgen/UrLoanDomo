@@ -22,7 +22,7 @@
       </div>
       <div class="item">
         <div class="name">注册手机号</div>
-        <input v-model="phoneNumber" placeholder="请输入您的手机号" class="text"/>
+        <div class="text">{{phoneNumber}}</div>
       </div>
       <div class="item">
         <div class="name">职业身份</div>
@@ -89,8 +89,22 @@
         IDcard: '',
         phoneNumber: '',
         maskStatus: false,
-        jobStatus: false
+        jobStatus: false,
+        userInfo:{}
       }
+    },
+    mounted(){
+      var that = this;
+      axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
+        'sessionid=' + localStorage.sessionid)
+        .then(function (response) {
+          that.userInfo=JSON.parse(response.data.data);
+          that.phoneNumber=that.userInfo.phone_number;
+          console.log(that.userInfo)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     methods: {
       hideAll () {

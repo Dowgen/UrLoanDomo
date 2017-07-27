@@ -86,7 +86,7 @@
       },
       logout () {
           localStorage.sessionid=''
-          window.location='/register'
+          window.location='/index'
       }
     }
   }

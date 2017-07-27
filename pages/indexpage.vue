@@ -15,8 +15,8 @@
       <div class="swiper-pagination swiper-pagination-bullets"></div>
     </div>
     <div class="bottom-btn">
-      <div class="apply" onclick="location.href='/'">在线申请</div>
-      <div class="register" onclick="location.href='/'">立即登录</div>
+      <div class="apply" onclick="location.href='/index'">在线申请</div>
+      <div class="register" onclick="location.href='/index'">立即登录</div>
     </div>
   </div>
 </template>

@@ -71,11 +71,12 @@
           that.userInfo = JSON.parse(rs.data.data);
           var vipNo = that.userInfo.membership_number;
           console.log('vipNo:'+vipNo);
-          if( vipNo != null || vipNo != '' || 
-              vipNo != undefined || vipNo != 'undefined')
+          if( vipNo != null && vipNo != '' && 
+              vipNo != undefined && vipNo != 'undefined')
             window.location.href = './myAccount';
           else
             window.location.href = './infoFillIn';
+          
         })
         .catch( err => {
           console.log(err);

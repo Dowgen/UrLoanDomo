@@ -44,16 +44,14 @@
         var now = Date.now(), last = localStorage.lastLoginTime;
         /* 距离上次登录间隔的分钟数 */
         var duration = (now - last)/60000;
-        if(duration >= 180 || !duration)
-          window.location.href = './register'
-        else{
-          if( this.hasVipNo() )
-            window.location.href = './myAccount'
-          else
-            window.location.href = './infoFillIn'
+        if(duration >= 180 || !duration){
+          /*window.location.href = './register'*/
+        }else{
+          this.deepJump();
         }
       },
-      hasVipNo (){
+      deepJump (){
+        var that = this;
         axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
         .then( rs => {
@@ -62,10 +60,9 @@
           console.log('vipNo:'+vipNo);
           if( vipNo != null && vipNo != '' &&
               vipNo != undefined && vipNo != 'undefined')
-            return true
+            window.location.href = './myAccount'
           else
-            return false
-
+            window.location.href = './infoFillIn'
         })
         .catch( err => {
           console.log(err);

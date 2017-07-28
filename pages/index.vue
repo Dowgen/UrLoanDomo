@@ -45,7 +45,11 @@
         /* 距离上次登录间隔的分钟数 */
         var duration = (now - last)/60000;
         if(duration >= 180 || !duration){
+<<<<<<< HEAD
           window.location.href = './register'
+=======
+          /*window.location.href = './register'*/
+>>>>>>> eae2a9d771ad0bb3a87fd5695034b990a605d560
         }else{
           this.deepJump();
         }

@@ -236,7 +236,7 @@
     width 100%
     min-height 100vh
     height 100%
-    background-image url("../static/js.png")
+    background-image url("../static/js.jpg")
     background-attachment: fixed
     padding-top 14px
     .add

@@ -3,13 +3,13 @@
     <div v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img width="80%" height="70%" src="../static/1.1.png">
+          <img width="80%" height="70%" src="../static/1.1.jpg">
         </div>
         <div class="swiper-slide">
-          <img width="80%" height="70%" src="../static/2.2.png">
+          <img width="80%" height="70%" src="../static/2.2.jpg">
         </div>
         <div class="swiper-slide">
-          <img width="80%" height="70%" src="../static/3.3.png">
+          <img width="80%" height="70%" src="../static/3.3.jpg">
         </div>
       </div>
       <div class="swiper-pagination swiper-pagination-bullets"></div>
@@ -78,7 +78,7 @@
   #bottom
     max-width:640px
     text-align: center;
-    background:url('~static/login_bg.png') no-repeat;
+    background:url('~static/login_bg.jpg') no-repeat;
     background-size: 100% 100%;
     position:absolute;
     top:0;

@@ -1,217 +1,82 @@
 <template>
   <div id="bottom">
-    <div class="d-con-con dialog-container" >
-      <div class="title">注册/登录</div>
-      <div class="user">
-        <input v-model="phoneNum" placeholder="请输入手机号">
-        <div type="default" class="d-button" @click="sendVerify" ref="d_btn">
-          <span v-if="!sendMessage">{{btn_words}}</span>
-          <span v-if="sendMessage">{{countdown}}s</span>
+    <div v-swiper:mySwiper="swiperOption">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img width="80%" height="70%" src="../static/1.1.png">
+        </div>
+        <div class="swiper-slide">
+          <img width="80%" height="70%" src="../static/2.2.png">
+        </div>
+        <div class="swiper-slide">
+          <img width="80%" height="70%" src="../static/3.3.png">
         </div>
       </div>
-
-      <div class="sendCode">
-        <div><input v-model="verifyCode" placeholder="请输入验证码"></div>
-
-      </div>
-
+      <div class="swiper-pagination swiper-pagination-bullets"></div>
     </div>
-    <div @click="confirmPhone" ref="ensure_btn" class="regist">登录</div>
-    <div class="agree">
-      <p>点击上方"登录",即表示你同意</p>
-      <span style="color:#bdaa73">《优贷管家用户服务协议》</span>
+    <div class="bottom-btn">
+      <div class="apply" @click="jump">在线申请</div>
+      <div class="register" @click="jump">立即登录</div>
     </div>
   </div>
 </template>
-
-
-<script>
-  import toastr from 'toastr'
+<script type="text/ecmascript">
   import axios from 'axios'
-
-  // 弹窗插件配置
-  toastr.options = {
-    closeButton: false,
-    debug: false,
-    progressBar: false,
-    positionClass: "toast-top-full-width",
-    onclick: null,
-    showDuration: "200",
-    hideDuration: "800",
-    timeOut: "1500",
-    extendedTimeOut: "800",
-    showEasing: "swing",
-    hideEasing: "linear",
-    showMethod: "fadeIn",
-    hideMethod: "fadeOut"
-  };
   export default {
-    head () {
-      return {
-        title: '用户注册'
-      }
-    },
     data () {
       return {
-        btn_words: '获取验证码', // 验证框按钮的文字
-        phoneNum: null,         // 用户输入的 手机号
-        verifyCode: null,       // 用户输入的 验证码
-        sendMessage: false,     // 决定显示文字还是倒计时
-        countdown: 60,          // 倒计时数
-        runCount: true         // 是否正在倒计时
+        swiperOption: {
+          autoplay: 5000,
+          initialSlide: 0,
+          loop: true,
+          pagination: '.swiper-pagination',
+          paginationBulletRender: function (swiper, index, className) {
+            return '<span style="background:#fff" class="' + className + '"></span>';
+          },
+          onSlideChangeEnd: swiper => {
+            console.log('onSlideChangeEnd', swiper.realIndex)
+          }
+        }
       }
     },
     methods:{
-      // 判断用户是否会员,决定跳转至哪个页面
-      jumpUrl (sessionid) {
-        var that = this;
+      jump (){
+        var now = Date.now(), last = localStorage.lastLoginTime;
+        /* 距离上次登录间隔的分钟数 */
+        var duration = (now - last)/60000;
+        if(duration >= 180 || !duration)
+          window.location.href = './register'
+        else{
+          if( this.hasVipNo() )
+            window.location.href = './myAccount'
+          else
+            window.location.href = './infoFillIn'
+        }
+      },
+      hasVipNo (){
         axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
-        'sessionid=' + sessionid)
+        'sessionid=' + localStorage.sessionid)
         .then( rs => {
           that.userInfo = JSON.parse(rs.data.data);
           var vipNo = that.userInfo.membership_number;
           console.log('vipNo:'+vipNo);
           if( vipNo != null && vipNo != '' &&
               vipNo != undefined && vipNo != 'undefined')
-            window.location.href = './myAccount';
+            return true
           else
-            window.location.href = './infoFillIn';
+            return false
 
         })
         .catch( err => {
           console.log(err);
         });
-      },
-      // 开始倒计时
-      startCount () {
-        if(this.runCount){
-          this.$refs.d_btn.setAttribute("disabled",true);
-          if (this.countdown == 0) {
-            this.resetBtn();
-          } else{
-            this.sendMessage = true;
-            this.countdown--;
-            setTimeout(this.startCount, 1000);
-          }
-        }
-      },
-      // 验证成功，重置所有
-      init (){
-        this.phoneNum= null;
-        this.verifyCode= null;
-        this.resetBtn();
-      },
-      // 点击获取验证码时，校验手机号
-      sendVerify () {
-        if (!this.sendMessage) {
-          if (!this.phoneNum || !this.phoneNum.match(
-              /^(0|86|17951)?(13[0-9]|15[012356789]|17[6780]|18[0-9]|14[57])[0-9]{8}$/)) {
-            toastr.warning('请输入合法的手机号');
-            return false;
-          }else{
-            this.countdown = 60;
-            this.runCount = true;
-            this.sendMessage = true;
-            this.sendVcode(this.phoneNum);
-            this.startCount();
-          }
-        }
-      },
-      // 点击登录时，校验手机号和验证码
-      confirmPhone () {
-        if (!this.phoneNum || !this.phoneNum.match(
-            /^(0|86|17951)?(13[0-9]|15[012356789]|17[6780]|18[0-9]|14[57])[0-9]{8}$/)) {
-          toastr.warning('请输入有效手机号');
-          return false;
-        }
-        if (!this.verifyCode) {
-          toastr.warning('请输入验证码');
-          return false;
-        }
-        var params = {
-          phoneNum: this.phoneNum,
-          checkCode: this.verifyCode,
-        }
-        this.sended(params);
-      },
-      // 发送验证码
-      sendVcode (phoneNum){
-        var that = this;
-        axios.get('http://120.27.198.97:8081/flower/w/cashUser/sendMsg?phoneNum='+ phoneNum)
-          .then( data => {
-            console.warn(data);
-            if(data.data == 'error') {
-              toastr.warning("验证码发送失败!");
-              that.resetBtn();
-            }
-            if(data.data == 'success') {
-              toastr.success("验证码发送成功");
-            }
-          })
-          .catch( err => {
-            toastr.warning("验证码发送失败!");
-            that.resetBtn();
-          });
-      },
-      // 验证码校验
-      sended (params) {
-        var that = this;
-        that.$refs.ensure_btn.setAttribute("disabled",true);
-        axios.get(
-          `http://120.27.198.97:8081/flower/w/cashUser/checkMsg?phoneNum=${params.phoneNum}&checkCode=${that.verifyCode}`.trim())
-          .then( data => {
-            console.warn(data);
-            if(data.data.status == 0 ) {
-              toastr.warning("验证码错误!");
-              that.resetBtn();
-            }
-            if(data.data.status == 1 ) {
-              toastr.success("验证成功！");
-              that.init();
-              that.user_info = JSON.parse(data.data.loanUser);
-              that.setCookie(data.data);
-              //跳转
-              that.jumpUrl(localStorage.sessionid);
-            }
-            that.$refs.ensure_btn.removeAttribute("disabled");
-            that.$refs.ensure_btn.style.background = "#bdaa73";
-          })
-          .catch( err => {
-            toastr.warning("验证码错误!");
-            that.resetBtn();
-            that.$refs.ensure_btn.removeAttribute("disabled");
-            that.$refs.ensure_btn.style.background = "#bdaa73";
-          });
-      },
-      //验证成功后设置localStorage
-      setCookie (data){
-          localStorage.login = true;
-          /*localStorage.user_info = data.loanUser; 不再用localStorage保存和获取个人信息，改为从后台调用 */
-          localStorage.sessionid = data.sessionid;
-          localStorage.phoneNumber=JSON.parse(data.loanUser).phone_number;
-          /* 设置登录时间，用于避免用户反复登录 */
-          localStorage.lastLoginTime = Date.now();
-      },
-      //按钮重置
-      resetBtn (){
-        this.sendMessage= false;
-        this.btn_words='重新发送';
-        this.$refs.d_btn.removeAttribute("disabled");
-        this.runCount = false;
-        this.countdown= 60;
       }
     }
   }
 </script>
-
-<style>
-  input{
-    background-color:transparent;
-    font-size: 15px;
-    color: #b3b3b3;
-  }
-  #bottom{
-    max-width:640px;
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  #bottom
+    max-width:640px
     text-align: center;
     background:url('~static/login_bg.png') no-repeat;
     background-size: 100% 100%;
@@ -220,77 +85,28 @@
     bottom:0;
     width:100%;
     height:100%;
-  }
-  .d-con-con{
-    text-align:center;
-  }
-  .title{
-    margin:60px auto;
-    height:50px;
-    font-size: 22px;
-    color: #bdaa73;
-  }
-  .d-con-con .user, .d-con-con .sendCode{
-    box-sizing:border-box;
-    margin:0 auto;
-    width:325px;
-    height:50px;
-    border-bottom:1px solid #b2b2b2;
-    margin-bottom:20px;
-    padding: 10px 0;
-  }
-  .d-con-con .user{
-    position:relative;
-  }
-  .d-con-con .user .d-button{
-    position:absolute;
-    font-size:14px;
-    color:#bdaa73;
-    right:20px;
-    top:0;
-    height:50px;
-    line-height:50px;
-  }
-  .d-con-con .user input{
-    padding:0;
-    width:280px;
-    box-sizing:border-box;
-    height:30px;
-    line-height:30px;
-    border:none;
-    outline:none;
-  }
-  .d-con-con .sendCode input{
-    padding:0;
-    width:280px;
-    box-sizing:border-box;
-    height:30px;
-    line-height:30px;
-    border:none;
-    outline:none;
-  }
-  #bottom .agree{
-    text-align:center;
-    font-size:14px;
-    color: white;
-    margin-bottom:62px;
-  }
-  #bottom .agree img{
-    width:14px;
-    height:14px;
-    margin-right:5px;
-    vertical-align:-2px;
-  }
-  #bottom .regist{
-    height:45px;
-    width:290px;
-    font-size:18px;
-    color:#FFFFFF;
-    line-height:45px;
-    border-radius:14px;
-    background:#bdaa73;
-    margin: 38px auto 13px;
-    text-align:center;
-  }
+    .swiper-slide
+      margin-top 62px
+      padding-bottom 37px
+    .bottom-btn
+      width 100%
+      position fixed
+      display flex
+      bottom 30px
+      justify-content center
+      .apply
+        width 140px
+        height 39px
+        line-height 37px
+        font-size 16px
+        color #fff
+        border 1px solid #fff
+        margin-right 25px
+      .register
+        background #BDAA73
+        width 140px
+        height 39px
+        line-height 37px
+        font-size 16px
+        color #fff
 </style>
-

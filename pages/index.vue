@@ -3,13 +3,13 @@
     <div v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img width="80%" height="70%" src="../static/1.1.jpg">
+          <img style="width:100%;height:100%" src="../static/1.1.jpg">
         </div>
         <div class="swiper-slide">
-          <img width="80%" height="70%" src="../static/2.2.jpg">
+          <img style="width:100%;height:100%" src="../static/2.2.jpg">
         </div>
         <div class="swiper-slide">
-          <img width="80%" height="70%" src="../static/3.3.jpg">
+          <img style="width:100%;height:100%" src="../static/3.3.jpg">
         </div>
       </div>
       <div class="swiper-pagination swiper-pagination-bullets"></div>
@@ -82,15 +82,18 @@
     background-size: 100% 100%;
     position:absolute;
     top:0;
-    bottom:0;
+    bottom:8vh;
     width:100%;
     height:100%;
-    .swiper-slide
-      margin-top 62px
-      padding-bottom 37px
+    .swiper-container
+      width 80%
+      height 86%
+      .swiper-slide
+        margin-top 32px
+        padding-bottom 87px
     .bottom-btn
       width 100%
-      position fixed
+      position absolute
       display flex
       bottom 30px
       justify-content center

@@ -16,16 +16,23 @@
         <div class="applyStatus" v-show="item.status==0">
           <div class="text">申请中...</div>
         </div>
-        <div class="applyStatus1" v-show="item.status==1">
+        <div class="applyStatus" v-show="item.status==1">
           <div class="text">申请成功</div>
+        </div>
+        <div class="applyStatus1" v-show="item.status==2">
+          <div class="text">申请驳回</div>
         </div>
       </div>
     </div>
     <div class="prompt" v-show="promptStatus">
       <div class="title">温馨提示：</div>
-      <div class="text">优贷管家的返利申请是针对您申请成功之后我们平台为你的返利的直接证明，
-        请按照您的实际申请内容去填写，以免遗漏返利金额，如您的申请经过我们的审核属实，
-        我们会在7日之内向您的支付会员时的原渠道返相应金额。
+      <div class="text">1）在您提交返利申请后，工作人员会在24小时为您反馈申请批复结果，
+        申请通过的用户，优贷管家会将返利打到您提交的支付宝账户内；
+        2）请如实填写您的申请信息，如有造假嫌疑，不但会影响您的返利进度，
+        更会影响您的信用状况哦；3）最终的返利金额解释权归优贷管家所有，
+        如果您是第二次申请某平台的贷款产品，将不会再获得返利哦，换一个试试看吧；
+        4）如您的返利申请被驳回，请重新核实您的申请信息，并再次提交返利申请，
+        或者直接联系我们的客服人员。客服电话：0571-28121621
       </div>
       <img @click="hidePrompt" width="50" height="31" src="../static/tip_arrow_down.png"/>
     </div>
@@ -59,11 +66,15 @@
               <option>12个月</option>
             </select>
           </div>
+          <div class="item">
+            <div class="alipay">支付宝</div>
+            <input v-model="alipayNumber" placeholder="请输入支付宝账号" class="text"/>
+          </div>
         </div>
 
         <div class="pic-con">
-          <p>请上传您本人在贷款此产品时相关的证明截图(不超过3张),
-            如短信证明，已提交贷款申请截图等等，我们客服后台会根据您提供的信息进行审核。</p>
+          <p>请上传您通过优贷管家申请的平台借款的证明截图，注意，只有下款成功后才可以申请返利哦。
+            请上传如下款短信证明、已下款的应用截图等，我们客服会在后台根据您提交的信息进行审核。</p>
           <div class="add-pic">
             <img id="proveImg" src="../static/add_pic.png">
             <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change="preivewImg">
@@ -111,7 +122,8 @@
         loanName: '',
         loanMoney:'',
         duration:'1个月',
-        cashBackList:[]
+        cashBackList:[],
+        alipayNumber:''
       }
     },
     created () {
@@ -146,7 +158,7 @@
         this.promptStatus=true;
       },
       confirmApply() {
-        if(this.loanName == '' || this.loanMoney == '' || this.duration == '' ||
+        if(this.loanName == '' || this.loanMoney == '' || this.duration == '' ||this.alipayNumber == ''||
            $("#upfile").get(0).files.length == 0 ){
           toastr.warning('请先填写全部产品信息!');
         }else{
@@ -164,6 +176,8 @@
           'product_name=' + that.loanName +
           '&money=' + that.loanMoney +
           '&loan_period=' + that.duration +
+          '&alipay=' + that.alipayNumber +
+          '&status=' + 0 +
           '&phoneNum=' + localStorage.phoneNumber
           )
           .then(function (rs) {
@@ -188,11 +202,11 @@
           }else{
             (function(file) {
               var name = file.name;
-              var reader = new FileReader();  
-              reader.onload = function(e) {  
-                  $('#proveImg').after(`<img class="upImg" 
-                    style="width:50px;height:50px;margin-left:10px" 
-                    src='${e.target.result}'>`) 
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                  $('#proveImg').after(`<img class="upImg"
+                    style="width:50px;height:50px;margin-left:10px"
+                    src='${e.target.result}'>`)
               }
               reader.readAsDataURL(file, "UTF-8");
             })( files[i] );
@@ -220,7 +234,7 @@
           data: fd,
           success: function(rs) {
             if(rs.code == 1){
-              toastr.success("返利申请成功！");            
+              toastr.success("返利申请成功！");
             }else if(rs.code == 0){
               toastr.warning(rs.data);
             }
@@ -297,7 +311,7 @@
           .text
             font-size 12px
             color #F5F5F5
-            margin-bottom 4px
+            margin-bottom 5px
         .applyStatus1
           position absolute
           display flex
@@ -312,17 +326,19 @@
           background-repeat no-repeat
           .text
             font-size 12px
-            color #F5F5F5
-            margin-bottom 4px
+            color #B3B3B3
+            margin-bottom 5px
     .prompt
       position fixed
       bottom 0
       left 0
       width 100%
-      height 225px
-      padding-top 52px
+      height 280px
+      padding-top 30px
+      padding-right 20px
       background-color rgba(0,0,0,0.26)
       color #ffffff
+      text-align: justify
       .title
         padding-left 32px
         margin-bottom 21px
@@ -371,7 +387,6 @@
           outline none
           border none
           text-align end
-          color #c6c6cB
         .select-time
           vertical-align middle
           text-transform none

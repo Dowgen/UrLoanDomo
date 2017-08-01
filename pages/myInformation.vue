@@ -65,11 +65,11 @@
     <div class="bottom-information">
       <div class="information-box">
         <div class="text">身份证号</div>
-        <div class="nick-name">{{idCard}}</div>
+        <div class="content">{{idCard}}</div>
       </div>
       <div class="information-box">
         <div class="text">手机号</div>
-        <div class="nick-name">{{userInfo.phone_number}}</div>
+        <div class="content">{{userInfo.phone_number}}</div>
       </div>
     </div>
   </section>

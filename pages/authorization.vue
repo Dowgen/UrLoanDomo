@@ -44,18 +44,18 @@
       <div class="payBox" @click.stop v-show="payStatus">
         <div class="payTitle">支付方式</div>
         <div class="payType">
-          <label for="one">支付宝</label>
-          <input type="radio" id="one" value="One" v-model="picked">
+          <label for="one">{{payMethod}}</label>
+          <input type="radio" id="one" value="One">
           <div class="payBtn"></div>
-          <img v-if="picked=='One'" src="../static/choice_payway.png">
+          <img src="../static/choice_payway.png">
         </div>
-        <div class="payType">
+        <!-- <div class="payType">
           <label for="two">微信</label>
           <input type="radio" id="two" value="Two" v-model="picked">
           <div class="payBtn"></div>
           <img  v-if="picked=='Two'" src="../static/choice_payway.png">
-        </div>
-        <div class="confirm" @click="openAliPay">
+        </div> -->
+        <div class="confirm" @click="openPay">
           确认支付
         </div>
 
@@ -93,21 +93,40 @@
     },
     data () {
       return {
+        openId: null,
         accreditStatus: false,
         payStatus: false,
-        picked: '',
+        payMethod: '',
         userInfo:{},
         startTime: 0,     /* 开始轮询交易结果的时间 */
         queryTimer: 0     /* 轮询计时器 */
       }
     },
     created (){
+      var that = this;
+      /* 判断是否微信内置浏览器,决定支付选项 */
+      if (process.browser) {
+        var ua = navigator.userAgent.toLowerCase();  
+        if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+            this.payMethod = '微信支付';
+            /* 获取openid */
+            if( this.GetQueryString('code') == null){
+              /* 用户还未点击微信支付 */
+            }else{
+              /* 已点击，则调用后台接口以获得openid */
+              axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
+              .then( rs => alert('openid:'+rs))
+              .catch( err => console.log(err));
+            }
+        } else {  
+            this.payMethod = '支付宝'
+        }  
+      }
       /* 判断是否芝麻验证成功 */
       if( this.GetQueryString('params') == null){
         /* 还未芝麻认证，啥也不干 */
       }else{
         console.log(process)
-        var that = this;
         /* 已芝麻认证，把芝麻返回的数据发给我们自己的服务器 */
         axios.get('http://120.27.198.97:8081/flower/w/youngzhima/zhimaCredit?' 
           /* 返回的数据需原封不动，因此用 encodeURIComponent 再编码 */
@@ -162,6 +181,26 @@
       },
       goPay (){
         this.payStatus=true
+      },
+      openPay(){
+        /* 根据浏览器决定拉起微信支付还是支付宝 */
+        if (process.browser) {
+          var ua = navigator.userAgent.toLowerCase();  
+          if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe2e1c2ecc1aaaca7&redirect_uri=http%3A%2F%2Fyoung.flowercredit.cn%2Fauthorization&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+          } else {  
+              this.openAliPay();
+          }
+        }  
+      },
+      openWxPay(openid){
+        var that = this;
+        var out_trade_no = Date.now() + Math.random().toString(36).substr(6);
+        /* 下单 */
+        axios.get('http://120.27.198.97:8081/flower/w/weiXin/order?out_trade_no=' + out_trade_no +
+          '&total_fee=1&sub_openid=' + openid)
+        .then( rs => alert(rs))
+        .catch( err => console.log(err));
       },
       openAliPay (){  /* 拉起阿里支付 */
         var that = this;
@@ -381,7 +420,7 @@
             color #BDAA73
       .payBox
         width 301px
-        height 240px
+        height 180px
         border 2px solid #bdaa73
         .payTitle
           height 46px
@@ -428,6 +467,6 @@
           font-size 16px
           color #BDAA73
           border 1px solid #BDAA73
-          margin 20px auto
+          margin 18px auto
           text-align center
 </style>

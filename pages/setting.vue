@@ -126,8 +126,8 @@
         this.currentIndex=index
       },
       logout () {
-          localStorage.sessionid='';
-          window.location='./register'
+          localStorage.sessionid=''
+          window.location.href = '.';
       }
     }
   }

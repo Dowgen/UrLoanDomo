@@ -86,7 +86,7 @@
       },
       logout () {
           localStorage.sessionid=''
-          window.location='/index'
+          window.location.href = '.';
       }
     }
   }

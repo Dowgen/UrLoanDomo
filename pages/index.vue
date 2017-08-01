@@ -47,7 +47,11 @@
         if(duration >= 180 || !duration){
           window.location.href = './register'
         }else{
-          this.deepJump();
+          var sid = localStorage.sessionid;
+          if(sid == undefined || sid == '') 
+            window.location.href = './register'
+          else
+            this.deepJump();
         }
       },
       deepJump (){

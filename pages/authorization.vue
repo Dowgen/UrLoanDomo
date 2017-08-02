@@ -25,7 +25,7 @@
         <div class="text">{{userInfo.phone_number}}</div>
       </div>
     </div>
-    <div class="bottom">
+    <div class="bottom" v-show="noVerify">
       <div class="prev" onclick="location.href='/infoFillIn'">上一步</div>
       <div class="next" @click="accredit">立即授权</div>
     </div>
@@ -93,6 +93,7 @@
     },
     data () {
       return {
+        noVerify: true,
         openId: null,
         accreditStatus: false,
         payStatus: false,
@@ -136,6 +137,7 @@
           .then(function (res) {
             if(res.data.code == '1'){
               that.accreditStatus = true;
+              that.noVerify = false; /* 芝麻认证成功后，隐藏底部按键 */
             }else{
               toastr.warning('芝麻认证失败，请重新认证!');
             }
@@ -188,7 +190,7 @@
           var ua = navigator.userAgent.toLowerCase();  
           if(ua.match(/MicroMessenger/i)=="micromessenger") {  
               window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe2e1c2ecc1aaaca7&redirect_uri=http%3A%2F%2Fyoung.flowercredit.cn%2Fauthorization&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
-          } else {  
+          }else{  
               this.openAliPay();
           }
         }  
@@ -215,19 +217,25 @@
         .catch( err => console.log(err));
       },
       onBridgeReady(rs){   /* 拉起微信支付 */
+        var that = this;
         var js_prepay_info = rs.match(/js_prepay_info=(\S*),/)[1];
         var info = JSON.parse(js_prepay_info);
         WeixinJSBridge.invoke(
           'getBrandWCPayRequest', {
             "appId": info.appId,        //公众号名称，由商户传入     
-            "timeStamp": Date.now(),    //时间戳，自1970年以来的秒数     
+            "timeStamp":info.timeStamp, //时间戳，自1970年以来的秒数     
             "nonceStr": info.nonceStr,  //随机串     
             "package": info.package,     
-            "signType": info.sighType,  //微信签名方式：     
-            "paySign": info.paySigh     //微信签名 
+            "signType": info.signType,  //微信签名方式：     
+            "paySign": info.paySign     //微信签名 
           },
           function(res){     
-             if(res.err_msg == "get_brand_wcpay_request:ok" ) {}     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。 
+            if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+              /* 支付成功后 */
+              that.makeVipNo();
+              toastr.success('恭喜您支付成功!');
+              setTimeout("window.location.href='./myAccount'",1000);
+            }
           }
         ); 
       },
@@ -282,7 +290,7 @@
                     }else if( trade_state === 'SUCCESS'){
                       toastr.success('支付成功');
                       that.makeVipNo();
-                      window.location.href = './myAccount';
+                      setTimeout("window.location.href='./myAccount'",1000);
                     }else if( trade_state === 'CLOSED'){
                       toastr.warning('交易已关闭，请重新支付');
                     }else if( trade_state === 'REVERSE'){
@@ -380,7 +388,7 @@
           text-align end
           color #828389
     .bottom
-      position absolute
+      position fixed
       bottom 0
       left 0
       width 100%

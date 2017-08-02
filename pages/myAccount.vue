@@ -186,6 +186,8 @@
             margin-bottom 22px
             .avatar
               margin-right 10px
+              img
+                border-radius 50%
             .content
               .name
                 font-size 15px

@@ -3,7 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="65a4f268-068a-4152-9d37-43792927ff9e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/authorization.vue" afterPath="$PROJECT_DIR$/pages/authorization.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/cashBack.vue" afterPath="$PROJECT_DIR$/pages/cashBack.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/infoFillIn.vue" afterPath="$PROJECT_DIR$/pages/infoFillIn.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/myAccount.vue" afterPath="$PROJECT_DIR$/pages/myAccount.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/myInformation.vue" afterPath="$PROJECT_DIR$/pages/myInformation.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/register.vue" afterPath="$PROJECT_DIR$/pages/register.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/setting.vue" afterPath="$PROJECT_DIR$/pages/setting.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,14 +24,80 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="register.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="register.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/register.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2041">
-              <caret line="279" column="40" lean-forward="true" selection-start-line="279" selection-start-column="40" selection-end-line="279" selection-end-column="40" />
+            <state relative-caret-position="-570">
+              <caret line="213" column="39" lean-forward="false" selection-start-line="213" selection-start-column="39" selection-end-line="213" selection-end-column="39" />
               <folding>
                 <element signature="n#style#0;n#span#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="infoFillIn.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/infoFillIn.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="273" column="20" lean-forward="false" selection-start-line="273" selection-start-column="20" selection-end-line="273" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="authorization.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/authorization.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="313" column="20" lean-forward="false" selection-start-line="313" selection-start-column="20" selection-end-line="313" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cashBack.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pages/cashBack.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="147" column="36" lean-forward="false" selection-start-line="147" selection-start-column="36" selection-end-line="147" selection-end-column="36" />
+              <folding>
+                <element signature="e#10688#11098#0" expanded="false" />
+                <marker date="1501664369355" expanded="true" signature="7077:7129" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="setting.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/setting.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="104" column="150" lean-forward="false" selection-start-line="104" selection-start-column="150" selection-end-line="104" selection-end-column="150" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="myAccount.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/myAccount.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7255">
+              <caret line="58" column="16" lean-forward="false" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
+              <folding>
+                <marker date="1501656684221" expanded="true" signature="4797:4815" ph="..." />
+                <marker date="1501656684221" expanded="true" signature="5020:5935" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="myInformation.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/myInformation.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="196" column="29" lean-forward="false" selection-start-line="196" selection-start-column="29" selection-end-line="196" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -49,6 +121,11 @@
       <find>swiper</find>
       <find>.swiper-pagination-bullet-active</find>
       <find>payBt</find>
+      <find>proveImg</find>
+      <find>upImg</find>
+      <find>upImgNum</find>
+      <find>removeImg</find>
+      <find>cashBackList</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -70,22 +147,22 @@
         <option value="$PROJECT_DIR$/nuxt.config.js" />
         <option value="$PROJECT_DIR$/.nuxt/index.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/pages/authorization.vue" />
         <option value="$PROJECT_DIR$/pages/advice.vue" />
         <option value="$PROJECT_DIR$/pages/loanStore.vue" />
         <option value="$PROJECT_DIR$/node_modules/_swiper@3.4.2@swiper/dist/css/swiper.min.css" />
         <option value="$PROJECT_DIR$/node_modules/_swiper@3.4.2@swiper/dist/css/swiper.css" />
         <option value="$PROJECT_DIR$/pages/test-scroll.vue" />
         <option value="$PROJECT_DIR$/node_modules/swiper/dist/css/swiper.css" />
-        <option value="$PROJECT_DIR$/pages/infoFillIn.vue" />
         <option value="$PROJECT_DIR$/pages/index.vue" />
         <option value="$PROJECT_DIR$/.nuxt/router.js" />
         <option value="$PROJECT_DIR$/pages/indexpage.vue" />
+        <option value="$PROJECT_DIR$/pages/infoFillIn.vue" />
+        <option value="$PROJECT_DIR$/pages/authorization.vue" />
+        <option value="$PROJECT_DIR$/pages/setting.vue" />
         <option value="$PROJECT_DIR$/pages/myAccount.vue" />
         <option value="$PROJECT_DIR$/pages/myInformation.vue" />
-        <option value="$PROJECT_DIR$/pages/cashBack.vue" />
-        <option value="$PROJECT_DIR$/pages/setting.vue" />
         <option value="$PROJECT_DIR$/pages/register.vue" />
+        <option value="$PROJECT_DIR$/pages/cashBack.vue" />
       </list>
     </option>
   </component>
@@ -124,6 +201,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -195,12 +273,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vue-sell-master" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
@@ -340,27 +417,28 @@
       <workItem from="1501491680581" duration="5491000" />
       <workItem from="1501551761568" duration="3049000" />
       <workItem from="1501564292952" duration="3028000" />
-      <workItem from="1501568246120" duration="3437000" />
+      <workItem from="1501568246120" duration="4207000" />
+      <workItem from="1501648733667" duration="10032000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="239549000" />
+    <option name="totallyTimeSpent" value="250351000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24011713" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19765739" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -559,19 +637,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/indexpage.vue" />
-    <entry file="file://$PROJECT_DIR$/pages/myAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="148" column="33" lean-forward="false" selection-start-line="148" selection-start-column="33" selection-end-line="148" selection-end-column="33" />
-          <folding>
-            <element signature="n#div#1;n#div#1;n#section#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#1;n#div#1;n#section#0;n#template#0;n#!!top" expanded="false" />
-            <marker date="1501233019201" expanded="true" signature="4797:4815" ph="..." />
-            <marker date="1501233019201" expanded="true" signature="5020:5935" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.nuxt/App.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -596,33 +661,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/myInformation.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1980">
-          <caret line="66" column="36" lean-forward="false" selection-start-line="66" selection-start-column="36" selection-end-line="66" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/authorization.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="96" column="25" lean-forward="false" selection-start-line="96" selection-start-column="25" selection-end-line="96" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/cashBack.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9900">
-          <caret line="331" column="20" lean-forward="false" selection-start-line="331" selection-start-column="20" selection-end-line="331" selection-end-column="20" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#section#0;n#template#0;n#!!top" expanded="false" />
-            <marker date="1501553621606" expanded="true" signature="6848:6961" ph="..." />
-            <marker date="1501553621606" expanded="true" signature="6876:6915" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/index.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1890">
@@ -635,36 +673,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/setting.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="128" column="35" lean-forward="true" selection-start-line="128" selection-start-column="35" selection-end-line="128" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/oldIndex.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="25" column="51" lean-forward="false" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/infoFillIn.vue">
+    <entry file="file://$PROJECT_DIR$/pages/setting.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+        <state relative-caret-position="338">
+          <caret line="104" column="150" lean-forward="false" selection-start-line="104" selection-start-column="150" selection-end-line="104" selection-end-column="150" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/register.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2041">
-          <caret line="279" column="40" lean-forward="true" selection-start-line="279" selection-start-column="40" selection-end-line="279" selection-end-column="40" />
+        <state relative-caret-position="-570">
+          <caret line="213" column="39" lean-forward="false" selection-start-line="213" selection-start-column="39" selection-end-line="213" selection-end-column="39" />
           <folding>
             <element signature="n#style#0;n#span#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/authorization.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="313" column="20" lean-forward="false" selection-start-line="313" selection-start-column="20" selection-end-line="313" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/infoFillIn.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="273" column="20" lean-forward="false" selection-start-line="273" selection-start-column="20" selection-end-line="273" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/myAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7255">
+          <caret line="58" column="16" lean-forward="false" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
+          <folding>
+            <marker date="1501656684221" expanded="true" signature="4797:4815" ph="..." />
+            <marker date="1501656684221" expanded="true" signature="5020:5935" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/myInformation.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="196" column="29" lean-forward="false" selection-start-line="196" selection-start-column="29" selection-end-line="196" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/cashBack.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="147" column="36" lean-forward="false" selection-start-line="147" selection-start-column="36" selection-end-line="147" selection-end-column="36" />
+          <folding>
+            <element signature="e#10688#11098#0" expanded="false" />
+            <marker date="1501664369355" expanded="true" signature="7077:7129" ph="..." />
           </folding>
         </state>
       </provider>

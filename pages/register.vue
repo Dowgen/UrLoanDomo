@@ -22,9 +22,7 @@
       <span style="color:#bdaa73" @click="showProtocol">《优贷管家用户服务协议》</span>
     </div>
     <transition name="move">
-      <div class="service-content" v-show="protocolStatus" @touchstart="_touchStart"
-           @touchmove="_touchMove"
-           >
+      <div class="service-content" v-show="protocolStatus">
         <div class="title1">用 户 注 册 协 议</div>
         <div class="total">杭州炬合网络科技有限公司在此郑重提示您，本文系您与“优贷管家”（以下简称平台）之间的法律协议，请您认真阅读并理解本协议。您通过平台点击确认本协议的，即表示您同意遵循本协议的所有约定，本协议在您和平台之间具有法律约束力。如发生法律纠纷，您不得以未仔细阅读或理解本协议为由进行抗辩</div>
         <div class="sub-title">第一条：用户确认及服务接纳</div>
@@ -107,10 +105,6 @@
         sendMessage: false,     // 决定显示文字还是倒计时
         countdown: 60,          // 倒计时数
         runCount: true,         // 是否正在倒计时
-        startX: 0,       //触摸位置
-        moveX: 0,       //滑动时的位置
-        disX: 0,       //移动距离
-        delWidth: 1000
       }
     },
     methods:{
@@ -255,32 +249,6 @@
         this.runCount = false;
         this.countdown= 60;
       },
-      _touchStart: function(ev) {
-        ev = ev || event;
-        if(ev.touches.length == 1){
-          // 手指按下的时候记录按下的位置
-          this.startX = ev.touches[0].clientX;
-          console.log(this.startX)
-        }
-      },
-      _touchMove: function(ev) {
-        ev = ev || event;
-        if(ev.touches.length == 1) {
-          // 滑动过程中的实时位置
-          this.moveX = ev.touches[0].clientX
-          console.log(this.moveX)
-          // 滑动过程中实时计算滑动距离
-          this.disX = this.startX - this.moveX;
-          // console.log('disX==>',this.disX)
-          // 如果是向右滑动或者只是点击，不改变滑动位置
-          if(this.disX > 0 || this.disX == 0) {
-            // console.log('没有移动');
-            return false;
-          }else if (this.disX < -50) {
-              this.protocolStatus=false;
-            }
-          }
-        }
       },
   }
 </script>

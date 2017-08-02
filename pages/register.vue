@@ -344,7 +344,7 @@
   .service-content
     text-align: start
     z-index 10
-    position absolute
+    position fixed
     top 0
     left 0
     width 100%

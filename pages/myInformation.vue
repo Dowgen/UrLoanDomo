@@ -194,6 +194,7 @@
           position: relative
           img
             margin-left 10px
+            border-radius 50%
           #upfile
             position: absolute;
             left: 0;

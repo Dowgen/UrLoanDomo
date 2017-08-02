@@ -162,8 +162,6 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .swiper-pagination-bullet-active
-    background black
   .container
     position relative
     width 100%
@@ -186,6 +184,7 @@
             margin-bottom 22px
             .avatar
               margin-right 10px
+              border-radius 50%
             .content
               .name
                 font-size 15px
@@ -248,11 +247,10 @@
             color #828389
     .recommend
       z-index 10
-      .swiper-pagination-bullet-active
-        background #C1A96B
+      height 100vh
       .global-mask
         width 100%
-        height 58vh
+        height 48%
         background: rgba(0, 0, 0, 0.4);
         animation: fade 0.5s linear;
       .product

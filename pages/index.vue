@@ -44,7 +44,7 @@
         var now = Date.now(), last = localStorage.lastLoginTime;
         /* 距离上次登录间隔的分钟数 */
         var duration = (now - last)/60000;
-        if(duration >= 180 || !duration){
+        if(duration >= 300 || !duration){
           window.location.href = './register'
         }else{
           var sid = localStorage.sessionid;

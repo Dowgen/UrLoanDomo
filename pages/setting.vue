@@ -20,6 +20,7 @@
     </div>
     <transition name="move">
       <div class="question-content" v-show="questionStatus">
+        <i class="fa fa-arrow-left" aria-hidden="true" @click="questionStatus=false" style="margin:10px"></i>
         <ul>
           <li v-for="(item,index) in questionData" class="question-item" @click="changeIndex(index)">
             <div class="problem-wrapper">{{item.problem}}</div>
@@ -30,6 +31,7 @@
     </transition>
     <transition name="move">
       <div class="contact-content" v-show="contactStatus">
+        <i class="fa fa-arrow-left" aria-hidden="true" @click="contactStatus=false" style="margin:10px"></i>
         <ul>
           <li v-for="item in contactData" class="contact-item">
             <div class="name">{{item.name}}</div>
@@ -40,8 +42,9 @@
     </transition>
     <transition name="move">
       <div class="service-content" v-show="serviceStatus">
-        <div class="title">用 户 注 册 协 议</div>
-        <div class="total">杭州炬合网络科技有限公司在此郑重提示您，本文系您与“优贷管家”（以下简称平台）之间的法律协议，请您认真阅读并理解本协议。您通过平台点击确认本协议的，即表示您同意遵循本协议的所有约定，本协议在您和平台之间具有法律约束力。如发生法律纠纷，您不得以未仔细阅读或理解本协议为由进行抗辩</div>
+        <i class="fa fa-arrow-left" aria-hidden="true" @click="serviceStatus=false"></i>
+        <div class="title">用户注册协议</div>
+        <div class="total">杭州炬合网络科技有限公司在此郑重提示您，本文系您与“优贷管家”（以下简称平台）之间的法律协议，请您认真阅读并理解本协议。您通过平台点击确认本协议的，即表示您同意遵循本协议的所有约定，本协议在您和平台之间具有法律约束力。如发生法律纠纷，您不得以未仔细阅读或理解本协议为由进行抗辩。</div>
         <div class="sub-title">第一条：用户确认及服务接纳</div>
         1.1 注册用户需满足下列条件：<br>
         （1）中华人民共和国大陆地区居民（不包含台、港、澳地区）；<br>
@@ -237,12 +240,14 @@
           .text
             font-size 15px
             color #BFBFBF
-
     .service-content
       z-index 10
-      position fixed
-      top 0
+      top  0  
       left 0
+      bottom 0  
+      position fixed  
+      overflow-y scroll  
+      overflow-x hidden
       width 100%
       height 100%
       padding 20px

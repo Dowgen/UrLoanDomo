@@ -162,6 +162,8 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .swiper-container
+    height 42%
   .container
     position relative
     width 100%
@@ -256,7 +258,6 @@
       .product
         position relative
         width 100%
-        height 42vh
         background-color #ffffff
         text-align center
         >img

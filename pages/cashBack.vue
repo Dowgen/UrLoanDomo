@@ -13,7 +13,7 @@
           <span class="money">借款金额：<span class="number">{{item.money}}</span>元</span>
           <span class="time">借款期数：<span class="number">{{item.loan_period}}</span></span>
         </div>
-        <div class="applyStatus" v-show="item.status==0">
+        <div class="applyStatus2" v-show="item.status==0">
           <div class="text">申请中...</div>
         </div>
         <div class="applyStatus" v-show="item.status==1">
@@ -22,6 +22,7 @@
         <div class="applyStatus1" v-show="item.status==2">
           <div class="text">申请驳回</div>
         </div>
+        <div v-if="item.status==2" class="whiteMask"></div>
       </div>
     </div>
     <div class="prompt" v-show="promptStatus">
@@ -77,6 +78,7 @@
             请上传如下款短信证明、已下款的应用截图等，我们客服会在后台根据您提交的信息进行审核。</p>
           <div class="add-pic">
             <img id="proveImg" src="../static/add_pic.png">
+            <img v-if="userUpImg" v-for="(item,index) in upImgNum" class="upImg" :src='item' @click="removeImg(index)">
             <input id="upfile" type="file" name="upfile" multiple="multiple" accept="image/png,image/jpg" class="accept" @change="preivewImg">
           </div>
         </div>
@@ -117,6 +119,8 @@
     },
     data () {
       return {
+        userUpImg: false,
+        upImgNum: [],
         promptStatus:true,
         loanStatus: false,
         loanName: '',
@@ -140,8 +144,9 @@
       axios.get('http://120.27.198.97:8081/flower/w/youLoan/returnLoanList?'+
         'phoneNum=' + localStorage.phoneNumber)
         .then(function (response) {
-          that.cashBackList=response.data
-          console.log(response.data);
+          that.cashBackList=response.data.sort(function (a,b) {
+            return a.status-b.status
+          })
         })
         .catch(function (error) {
           console.log(error);
@@ -195,6 +200,7 @@
       },
       preivewImg() {
         /* 用fileReader实现图片预览 */
+        var that = this;
         var files = $("#upfile").get(0).files;
         for(var i=0 ; i < files.length; ++i){
           if(i == 3){
@@ -204,20 +210,25 @@
               var name = file.name;
               var reader = new FileReader();
               reader.onload = function(e) {
-                  $('#proveImg').after(`<img class="upImg"
-                    style="width:50px;height:50px;margin-left:10px"
-                    src='${e.target.result}'>`)
+                that.upImgNum.push( e.target.result)
               }
               reader.readAsDataURL(file, "UTF-8");
+              that.userUpImg = true;
             })( files[i] );
           }
         }
+      },
+      removeImg(index) {
+          this.upImgNum.splice(index,1)
+          delete $("#upfile").get(0).files[index]
+          console.log($("#upfile").get(0).files)
+        console.log(Object.getOwnPropertyDescriptor($("#upfile").get(0).files,index))
       },
       uploadImg() {
         var fd = new FormData();
         var imgLen = $("#upfile").get(0).files.length;
         var file = ['img1','img2','img3'];
-
+        var that = this;
         fd.append("upload", 1);
         fd.append('product_name', this.loanName);
         fd.append('phoneNum', localStorage.phoneNumber);
@@ -235,6 +246,7 @@
           success: function(rs) {
             if(rs.code == 1){
               toastr.success("返利申请成功！");
+              that.loanStatus = false;
             }else if(rs.code == 0){
               toastr.warning(rs.data);
             }
@@ -328,6 +340,30 @@
             font-size 12px
             color #B3B3B3
             margin-bottom 5px
+        .applyStatus2
+          position absolute
+          display flex
+          align-items center
+          justify-content center
+          right -3px
+          top 18px
+          width 70px
+          height 23px
+          background url("../static/applyed_bg .png")
+          background-size contain
+          background-repeat no-repeat
+          .text
+            font-size 12px
+            color #BDAA73
+            margin-bottom 5px
+        .whiteMask
+          width 100%
+          height 100%
+          position absolute
+          background #ffffff
+          opacity 0.43
+          top 0
+          left 0
     .prompt
       position fixed
       bottom 0
@@ -440,4 +476,6 @@
         text-align center
         line-height 40px
         border-radius 5px
+  .upImg
+    width:50px;height:50px;margin-left:10px
 </style>

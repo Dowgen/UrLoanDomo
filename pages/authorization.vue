@@ -107,8 +107,8 @@
       var that = this;
       /* 判断是否微信内置浏览器,决定支付选项 */
       if (process.browser) {
-        var ua = navigator.userAgent.toLowerCase();  
-        if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i)=="micromessenger") {
             this.payMethod = '微信支付';
             /* 获取openid */
             if( this.GetQueryString('code') == null){
@@ -119,9 +119,9 @@
               .then( rs => that.orderWxPay(rs.data.openid) )  /* 下单 */
               .catch( err => console.error(err));
             }
-        } else {  
+        } else {
             this.payMethod = '支付宝'
-        }  
+        }
       }
       /* 判断是否芝麻验证成功 */
       if( this.GetQueryString('params') == null){
@@ -129,7 +129,7 @@
       }else{
         console.log(process)
         /* 已芝麻认证，把芝麻返回的数据发给我们自己的服务器 */
-        axios.get('http://120.27.198.97:8081/flower/w/youngzhima/zhimaCredit?' 
+        axios.get('http://120.27.198.97:8081/flower/w/youngzhima/zhimaCredit?'
           /* 返回的数据需原封不动，因此用 encodeURIComponent 再编码 */
           + 'params=' + encodeURIComponent( this.GetQueryString('params') )
           + '&sign=' + encodeURIComponent( this.GetQueryString('sign') )
@@ -187,13 +187,13 @@
       openPay(){
         /* 根据浏览器决定拉起微信支付还是支付宝 */
         if (process.browser) {
-          var ua = navigator.userAgent.toLowerCase();  
-          if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+          var ua = navigator.userAgent.toLowerCase();
+          if(ua.match(/MicroMessenger/i)=="micromessenger") {
               window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe2e1c2ecc1aaaca7&redirect_uri=http%3A%2F%2Fyoung.flowercredit.cn%2Fauthorization&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
-          }else{  
+          }else{
               this.openAliPay();
           }
-        }  
+        }
       },
       orderWxPay(openid){ /* 下单 */
         var that = this;
@@ -201,13 +201,13 @@
         /* 下单 */
         axios.get('http://120.27.198.97:8081/flower/w/weiXin/order?out_trade_no=' + out_trade_no +
           '&total_fee=1&sub_openid=' + openid)
-        .then( res => { 
+        .then( res => {
                 /* 拉起微信支付 */
                 if (typeof WeixinJSBridge == "undefined"){
                   if( document.addEventListener ){
                      document.addEventListener('WeixinJSBridgeReady', that.onBridgeReady, false);
                   }else if (document.attachEvent){
-                     document.attachEvent('WeixinJSBridgeReady', that.onBridgeReady); 
+                     document.attachEvent('WeixinJSBridgeReady', that.onBridgeReady);
                      document.attachEvent('onWeixinJSBridgeReady', that.onBridgeReady);
                   }
                 }else{
@@ -222,14 +222,14 @@
         var info = JSON.parse(js_prepay_info);
         WeixinJSBridge.invoke(
           'getBrandWCPayRequest', {
-            "appId": info.appId,        //公众号名称，由商户传入     
-            "timeStamp":info.timeStamp, //时间戳，自1970年以来的秒数     
-            "nonceStr": info.nonceStr,  //随机串     
-            "package": info.package,     
-            "signType": info.signType,  //微信签名方式：     
-            "paySign": info.paySign     //微信签名 
+            "appId": info.appId,        //公众号名称，由商户传入
+            "timeStamp":info.timeStamp, //时间戳，自1970年以来的秒数
+            "nonceStr": info.nonceStr,  //随机串
+            "package": info.package,
+            "signType": info.signType,  //微信签名方式：
+            "paySign": info.paySign     //微信签名
           },
-          function(res){     
+          function(res){
             if(res.err_msg == "get_brand_wcpay_request:ok" ) {
               /* 支付成功后 */
               that.makeVipNo();
@@ -237,7 +237,7 @@
               setTimeout("window.location.href='./myAccount'",1000);
             }
           }
-        ); 
+        );
       },
       openAliPay (){  /* 拉起阿里支付 */
         var that = this;
@@ -251,10 +251,10 @@
           + '&no_credit=no_credit'       /* 是否屏蔽信用卡 */
           + '&body=优贷管家vip年费'      /* 商品描述 */
           + '&store_appid=10086'         /* 门店APPID */
-          + '&attach=附加信息' 
+          + '&attach=附加信息'
           + '&total_fee=1'               /* 支付金额 */
         )
-        .then( res => { 
+        .then( res => {
                 alipay_wap(res.data.prepay_id, null);
                 toastr.success('请稍后');
                 that.hideAll();
@@ -268,7 +268,7 @@
         var rs,trade_state,return_code,result_code;
         axios.get('http://120.27.198.97:8081/flower/w/payMent/queryResult?out_trade_no='
                   + sessionStorage.out_trade_no )
-        .then( res => 
+        .then( res =>
               {
                 /* 这里遵循支付文档流程编写 */
                 rs = res.data;
@@ -276,7 +276,7 @@
                 /*return_code = rs.match(/return_code=(\S*),/)[1];
                 result_code = rs.match(/result_code=(\S*),/)[1];
 
-                if( return_code === 'SUCCESS'){     通信标识 
+                if( return_code === 'SUCCESS'){     通信标识
                   if( result_code === 'SUCCESS'){     业务结果 */
                     if( trade_state === 'USERPAYING'){ /* 等待用户付款 */
                       if( ((Date.now() - that.startTime)/1000) >= 300){
@@ -295,7 +295,7 @@
                       toastr.warning('交易已关闭，请重新支付');
                     }else if( trade_state === 'REVERSE'){
                       toastr.warning('订单已撤销，请重新支付');
-                    } 
+                    }
                   /*}else{
                     toastr.warning('发起支付失败，请重试!');
                   }

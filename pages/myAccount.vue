@@ -184,7 +184,8 @@
             margin-bottom 22px
             .avatar
               margin-right 10px
-              border-radius 50%
+              img
+                border-radius 50%
             .content
               .name
                 font-size 15px
@@ -193,7 +194,6 @@
               .age
                 font-size 10px
                 color #C1A96B
-
           .bottom-content
             padding-left 10px
             font-size 14px

@@ -164,6 +164,8 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .swiper-container
     height 42%
+    .swiper-pagination
+      bottom 0
   .container
     position relative
     width 100%

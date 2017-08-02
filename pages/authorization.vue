@@ -115,7 +115,7 @@
             }else{
               /* 已点击，则调用后台接口以获得openid */
               axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
-              .then( rs => alert('openid:'+rs))
+              .then( rs => that.openWxPay(rs.data.openid) )  /* 下单 */
               .catch( err => console.log(err));
             }
         } else {  
@@ -199,7 +199,7 @@
         /* 下单 */
         axios.get('http://120.27.198.97:8081/flower/w/weiXin/order?out_trade_no=' + out_trade_no +
           '&total_fee=1&sub_openid=' + openid)
-        .then( rs => alert(rs))
+        .then( rs => console.log('下单:'+rs))
         .catch( err => console.log(err));
       },
       openAliPay (){  /* 拉起阿里支付 */

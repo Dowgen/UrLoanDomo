@@ -163,7 +163,7 @@
         this.promptStatus=true;
       },
       confirmApply() {
-        if(this.loanName == '' || this.loanMoney == '' || this.duration == '' ||this.alipayNumber == ''||
+        if(this.loanName == '' || this.loanMoney == '' || this.duration == '' ||this.alipayNumber == ''|| this.upImgNum.length == 0 ||
            $("#upfile").get(0).files.length == 0 ){
           toastr.warning('请先填写全部产品信息!');
         }else{

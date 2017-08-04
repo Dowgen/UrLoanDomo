@@ -117,7 +117,7 @@
               /* 已点击，则调用后台接口以获得openid */
               axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
               .then( rs => that.orderWxPay(rs.data.openid) )  /* 下单 */
-              .catch( err => console.log(err));
+              .catch( err => console.error(err));
             }
         } else {
             this.payMethod = '支付宝'
@@ -143,7 +143,7 @@
             }
           })
           .catch(function (error) {
-            console.warn(error);
+            console.error(error);
           });
       }
     },
@@ -156,7 +156,7 @@
             console.log(that.userInfo);
         })
         .catch(function (error) {
-          console.log(error);
+          console.error(error);
         });
     },
     methods: {
@@ -173,7 +173,7 @@
       accredit () {
         var that = this;
         window.location.href=
-          'http://120.27.198.97:8081/flower/w/youngzhima/zhimaAuth?real_name=' + that.userInfo.real_name +
+          'http://young.flowercredit.cn:8081/flower/w/youngzhima/zhimaAuth?real_name=' + that.userInfo.real_name +
           '&id_card=' + that.userInfo.id_card +
           '&sessionid='+ localStorage.sessionid;
       },
@@ -214,7 +214,7 @@
                   that.onBridgeReady(res.data);
                 }
          })
-        .catch( err => console.log(err));
+        .catch( err => console.error(err));
       },
       onBridgeReady(rs){   /* 拉起微信支付 */
         var that = this;
@@ -261,7 +261,7 @@
                 that.startTime = Date.now();
                 that.queryTimer = setInterval(this.queryAlipay, 5000)
         })
-        .catch( error => console.log(error) )
+        .catch( error => console.error(error) )
       },
       queryAlipay (){  /* 查询支付结果 */
         var that = this;
@@ -303,7 +303,7 @@
                   toastr.warning('通信失败，请重试!');
                 }*/
               })
-        .catch( err => console.warn('query:'+ err))
+        .catch( err => console.error('query:'+ err))
       },
       revokeAlipay (){  /* 撤销订单 */
         var that = this;
@@ -324,12 +324,12 @@
                   toastr.warning('通信失败，请重试!');
                 }
         })
-        .catch( err => console.warn('revoke:'+ err))
+        .catch( err => console.error('revoke:'+ err))
       },
       makeVipNo (){     /* 生成会员籍号 */
         axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertRandomn?phoneNum=' + localStorage.phoneNumber)
-        .then( res => toastr.success('makeVipNo:' + res))
-        .catch( err => toastr.warning('makeVipNo:' + err))
+        .then( res => console.log('makeVipNo:' + res))
+        .catch( err => console.error('makeVipNo:' + err))
       }
     }
   }

@@ -115,12 +115,16 @@
               /* 用户还未点击微信支付 */
             }else{
               /* 已点击，则调用后台接口以获得openid */
+              alert('用户点击微信支付!');
               axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
-              .then( rs => that.orderWxPay(rs.data.openid) )  /* 下单 */
-              .catch( err => console.error(err));
+              .then( rs => {
+                      alert('回调成功！openid为:'+rs.data.openid);
+                      that.orderWxPay(rs.data.openid) 
+              })  /* 下单 */
+              .catch( err => alert(err));
             }
         } else {
-            this.payMethod = '支付宝'
+            this.payMethod = '支付宝';
         }
       }
       /* 判断是否芝麻验证成功 */
@@ -143,7 +147,7 @@
             }
           })
           .catch(function (error) {
-            console.error(error);
+            alert(error);
           });
       }
     },
@@ -156,7 +160,7 @@
             console.log(that.userInfo);
         })
         .catch(function (error) {
-          console.error(error);
+          alert(error);
         });
     },
     methods: {
@@ -214,11 +218,12 @@
                   that.onBridgeReady(res.data);
                 }
          })
-        .catch( err => console.error(err));
+        .catch( err => alert(err));
       },
       onBridgeReady(rs){   /* 拉起微信支付 */
         var that = this;
         var js_prepay_info = rs.match(/js_prepay_info=(\S*),/)[1];
+        alert('看看有没打印出来:'+js_prepay_info);
         var info = JSON.parse(js_prepay_info);
         WeixinJSBridge.invoke(
           'getBrandWCPayRequest', {
@@ -240,6 +245,7 @@
         );
       },
       openAliPay (){  /* 拉起阿里支付 */
+        toastr.success('请稍后');
         var that = this;
         var out_trade_no = Date.now() + Math.random().toString(36).substr(6);
         sessionStorage.out_trade_no = out_trade_no;
@@ -256,12 +262,11 @@
         )
         .then( res => {
                 alipay_wap(res.data.prepay_id, null);
-                toastr.success('请稍后');
                 that.hideAll();
                 that.startTime = Date.now();
                 that.queryTimer = setInterval(this.queryAlipay, 5000)
         })
-        .catch( error => console.error(error) )
+        .catch( error => alert(error) )
       },
       queryAlipay (){  /* 查询支付结果 */
         var that = this;
@@ -303,7 +308,7 @@
                   toastr.warning('通信失败，请重试!');
                 }*/
               })
-        .catch( err => console.error('query:'+ err))
+        .catch( err => alert('query:'+ err))
       },
       revokeAlipay (){  /* 撤销订单 */
         var that = this;
@@ -324,12 +329,12 @@
                   toastr.warning('通信失败，请重试!');
                 }
         })
-        .catch( err => console.error('revoke:'+ err))
+        .catch( err => alert('revoke:'+ err))
       },
       makeVipNo (){     /* 生成会员籍号 */
         axios.get('http://120.27.198.97:8081/flower/w/youLoan/insertRandomn?phoneNum=' + localStorage.phoneNumber)
         .then( res => console.log('makeVipNo:' + res))
-        .catch( err => console.error('makeVipNo:' + err))
+        .catch( err => alert('makeVipNo:' + err))
       }
     }
   }

@@ -14,11 +14,11 @@
     <div class="content">
       <div class="item">
         <div class="name">姓名</div>
-        <input v-model="name" placeholder="请输入姓名" class="text"/>
+        <input v-model="userInfo.real_name" placeholder="请输入姓名" class="text"/>
       </div>
       <div class="item">
         <div class="name">身份证号</div>
-        <input v-model="IDcard" placeholder="请输入身份证号" class="text"/>
+        <input v-model="userInfo.id_card" placeholder="请输入身份证号" class="text"/>
       </div>
       <div class="item">
         <div class="name">注册手机号</div>
@@ -100,7 +100,10 @@
         .then(function (response) {
           that.userInfo=JSON.parse(response.data.data);
           that.phoneNumber=that.userInfo.phone_number;
-          console.log(that.userInfo)
+          console.log(that.userInfo);
+          if (that.userInfo.ocp){
+              that.job=that.userInfo.ocp
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -121,11 +124,11 @@
       },
       nextStep () {
         var that = this;
-        if(!regName.test(this.name)) {
+        if(!regName.test(this.userInfo.real_name)) {
           toastr.warning('请输入正确的姓名');
           return false;
         }
-        if(!regIDcard.test(this.IDcard)) {
+        if(!regIDcard.test(this.userInfo.id_card)) {
           toastr.warning('请输入正确的身份证号码');
           return false;
         }
@@ -139,8 +142,8 @@
         }
         console.log(localStorage.sessionid)
         axios.get('http://120.27.198.97:8081/flower/w/xhhApp/updateOrSave?'+
-          'real_name=' + that.name +
-          '&id_card=' + that.IDcard +
+          'real_name=' + that.userInfo.real_name +
+          '&id_card=' + that.userInfo.id_card +
           '&phone_number=' + that.phoneNumber +
           '&ocp=' + that.job +
           '&sessionid=' + localStorage.sessionid)

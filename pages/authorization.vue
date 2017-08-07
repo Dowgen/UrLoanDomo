@@ -115,11 +115,12 @@
               /* 用户还未点击微信支付 */
             }else{
               /* 已点击，则调用后台接口以获得openid */
-              /*alert('用户点击微信支付!');*/
               axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
               .then( rs => {
-                      /*alert('回调成功！openid为:'+rs.data.openid);*/
-                      that.orderWxPay(rs.data.openid) 
+                      that.$nextTick(function () {
+                        // DOM 现在更新了
+                        that.orderWxPay(rs.data.openid) 
+                      })
               })  /* 下单 */
               .catch( err => alert(err));
             }
@@ -223,7 +224,6 @@
       onBridgeReady(rs){   /* 拉起微信支付 */
         var that = this;
         var js_prepay_info = rs.match(/js_prepay_info=(\S*),/)[1];
-        /*alert('看看有没打印出来:'+js_prepay_info);*/
         var info = JSON.parse(js_prepay_info);
         WeixinJSBridge.invoke(
           'getBrandWCPayRequest', {

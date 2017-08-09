@@ -115,10 +115,8 @@
               /* 已点击，则调用后台接口以获得openid */
               axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
               .then( rs => {
-                      that.$nextTick(function () {
-                        // DOM 现在更新了
-                        that.orderWxPay(rs.data.openid)
-                      })
+                        alert('是否确认支付');
+                        that.orderWxPay(rs.data.openid);
               })  /* 下单 */
               .catch( err => alert(err));
             }

@@ -117,7 +117,7 @@
               .then( rs => {
                       that.$nextTick(function () {
                         // DOM 现在更新了
-                        that.orderWxPay(rs.data.openid) 
+                        that.orderWxPay(rs.data.openid)
                       })
               })  /* 下单 */
               .catch( err => alert(err));
@@ -160,6 +160,7 @@
         })
         .catch(function (error) {
           alert(error);
+          window.location.href='/register'
         });
     },
     methods: {

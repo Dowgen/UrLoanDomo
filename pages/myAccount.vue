@@ -54,29 +54,27 @@
         </div>
       </div>
     </div>
-    <div class="recommend">
-      <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
-      <div v-swiper:mySwiper="swiperOption" v-show="maskStatus">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="banner in banners">
-            <div class="product">
-              <img width="63" height="63" :src='banner.imgUrl' />
-              <div class="product-name">{{banner.name}}</div>
-              <div class="desc">
-                <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
-                <span class="lines">最高额度<span class="number">{{banner.line}}</span></span>
-                <span class="success">成功率<span class="number">{{banner.success}}</span></span>
-              </div>
-              <div class="advantage">
-                <span class="advantage-inner">{{banner.advantage[0]}}</span>
-                <span class="advantage-inner">{{banner.advantage[1]}}</span>
-              </div>
+    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
+    <div v-swiper:mySwiper="swiperOption" v-show="maskStatus">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="banner in banners">
+          <div class="product">
+            <img width="63" height="63" :src='banner.imgUrl' />
+            <div class="product-name">{{banner.name}}</div>
+            <div class="desc">
+              <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
+              <span class="lines">最高额度<span class="number">{{banner.line}}</span></span>
+              <span class="success">成功率<span class="number">{{banner.success}}</span></span>
             </div>
-            <img style="position: absolute;top: -1px;right: 48px; " width="36" height="46" src="../static/recommend_icon.png"/>
+            <div class="advantage">
+              <span class="advantage-inner">{{banner.advantage[0]}}</span>
+              <span class="advantage-inner">{{banner.advantage[1]}}</span>
+            </div>
           </div>
+          <img style="position: absolute;top: -1px;right: 48px; " width="36" height="46" src="../static/recommend_icon.png"/>
         </div>
-        <div class="swiper-pagination swiper-pagination-bullets"></div>
       </div>
+      <div class="swiper-pagination swiper-pagination-bullets"></div>
     </div>
   </section>
 </template>
@@ -131,11 +129,10 @@
         }
       }
     },
-    beforeMount(){
+    mounted(){
       var that = this;
       var date=new Date();
       var year=date.getFullYear();
-      this.$nextTick(() => {
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
         .then(function (response) {
@@ -151,8 +148,9 @@
         })
         .catch(function (error) {
           console.log(error);
+          window.location.href='/register'
         });
-    } )},
+    },
     methods: {
       hideAll(){
         this.maskStatus = false;
@@ -163,9 +161,12 @@
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .swiper-container
-    height 42%
+    position fixed
+    bottom 0
+    left 0
+    width 100%
     .swiper-pagination
-      bottom 0
+      bottom 20px
   .container
     position relative
     width 100%
@@ -249,62 +250,59 @@
           .text
             font-size 13px
             color #828389
-    .recommend
-      z-index 10
-      height 100vh
-      .global-mask
-        width 100%
-        height 48%
-        background: rgba(0, 0, 0, 0.4);
-        animation: fade 0.5s linear;
-      .product
-        position relative
-        width 100%
-        background-color #ffffff
-        text-align center
-        >img
-          margin-top 34px
-          margin-bottom 8px
-        .product-name
-          font-size 15px
-          color #212121
-          margin-bottom 20px
-        .desc
-          display flex
-          padding-bottom 14px
-          margin 0 20px
-          border-bottom dashed 1px #606166
+    .global-mask
+      width 100%
+      height 100%
+      background: rgba(0, 0, 0, 0.4);
+      animation: fade 0.5s linear;
+    .product
+      position relative
+      width 100%
+      background-color #ffffff
+      text-align center
+      padding-bottom 60px
+      >img
+        margin-top 34px
+        margin-bottom 8px
+      .product-name
+        font-size 15px
+        color #212121
+        margin-bottom 20px
+      .desc
+        display flex
+        padding-bottom 14px
+        margin 0 20px
+        border-bottom dashed 1px #606166
+        font-size 11px
+        color #606166
+        margin-bottom 13px
+        .dailyRate
+          flex 1
+          .number
+            color #F42D06
+            margin-left 5px
+        .lines
+          flex 1
+          .number
+            color #F42D06
+            margin-left 5px
+        .success
+          flex 1
+          .number
+            color #F42D06
+            margin-left 5px
+      .advantage
+        display flex
+        width 70%
+        margin 0 auto
+        justify-content space-between
+        .advantage-inner
+          width 100px
+          height 25px
+          border 1px solid #AAAAAA
           font-size 11px
-          color #606166
-          margin-bottom 13px
-          .dailyRate
-            flex 1
-            .number
-              color #F42D06
-              margin-left 5px
-          .lines
-            flex 1
-            .number
-              color #F42D06
-              margin-left 5px
-          .success
-            flex 1
-            .number
-              color #F42D06
-              margin-left 5px
-        .advantage
-          display flex
-          width 70%
-          margin 0 auto
-          justify-content space-between
-          margin-bottom 28px
-          .advantage-inner
-            width 100px
-            height 25px
-            border 1px solid #AAAAAA
-            font-size 11px
-            color #AAAAAA
-            text-align center
-            line-height 25px
-            border-radius 12px
+          color #AAAAAA
+          text-align center
+          line-height 25px
+          border-radius 12px
 </style>

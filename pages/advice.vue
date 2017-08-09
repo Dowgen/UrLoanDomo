@@ -119,7 +119,7 @@
     .company
       width 100%
       height 50px
-      position absolute
+      position fixed
       left 0
       bottom 0
       text-align center

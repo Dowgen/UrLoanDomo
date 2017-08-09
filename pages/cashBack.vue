@@ -134,23 +134,13 @@
 
     },
     mounted(){
-      var that = this;
       /* 每次点击上传图片按钮就清空现有的图片 */
       $("#upfile").on('click',
         function(){
           this.value = null;
           $('.upImg').remove();
-      })
-      axios.get('http://120.27.198.97:8081/flower/w/youLoan/returnLoanList?'+
-        'phoneNum=' + localStorage.phoneNumber)
-        .then(function (response) {
-          that.cashBackList=response.data.sort(function (a,b) {
-            return a.status-b.status
-          })
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      });
+      this.getLoanList();
     },
     methods: {
       loan () {
@@ -246,12 +236,27 @@
           success: function(rs) {
             if(rs.code == 1){
               toastr.success("返利申请成功！");
+              that.getLoanList();
               that.loanStatus = false;
             }else if(rs.code == 0){
               toastr.warning(rs.data);
             }
           }
         });
+      },
+      getLoanList(){
+        var that = this;
+        axios.get('http://120.27.198.97:8081/flower/w/youLoan/returnLoanList?'+
+          'phoneNum=' + localStorage.phoneNumber)
+          .then(function (response) {
+            console.log(response)
+            that.cashBackList=response.data.sort(function (a,b) {
+              return a.status-b.status
+            })
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     }
   }

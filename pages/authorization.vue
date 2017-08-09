@@ -152,12 +152,12 @@
       var that = this;
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
-        .then(function (response) {
-            that.userInfo=JSON.parse(response.data.data);
+        .then( rs => {
+            that.userInfo=JSON.parse(rs.data.data);
             console.log(that.userInfo);
         })
-        .catch(function (error) {
-          alert(error);
+        .catch( err => {
+          alert(err);
           window.location.href='/register'
         });
     },

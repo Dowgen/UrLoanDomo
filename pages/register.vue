@@ -132,7 +132,8 @@
           }
         })
         .catch( err => {
-          console.log(err);
+          alert(err);
+          window.location.href='/register'
         });
       },
       // 开始倒计时

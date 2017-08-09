@@ -95,11 +95,11 @@
       var that = this;
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
-        .then(function (response) {
+        .then( rs => {
           if(rs.data.code == '0'){
             window.location.href = './register'
           }else{
-            that.userInfo=JSON.parse(response.data.data);
+            that.userInfo=JSON.parse(rs.data.data);
             that.phoneNumber=that.userInfo.phone_number;
             console.log(that.userInfo);
             if (that.userInfo.ocp){
@@ -107,8 +107,8 @@
             }
           }
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch( err => {
+          alert(err);
           window.location.href='/register'
         });
     },
@@ -155,7 +155,7 @@
             window.location.href = '/authorization';
           })
           .catch(function (error) {
-            console.log(error);
+            alert(error);
           });
 
       }

@@ -73,7 +73,10 @@
               window.location.href = './infoFillIn'
           }
         })
-        .catch( err => alert(err));
+        .catch( err => {
+          alert(err);
+          window.location.href='/register'
+        });
       }
     }
   }

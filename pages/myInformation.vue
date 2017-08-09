@@ -97,17 +97,22 @@
       var that = this;
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
-        .then(function (response) {
-          that.userInfo=JSON.parse(response.data.data);
-          that.message=that.userInfo.nickname;
-          that.sex=that.userInfo.gender;
-          that.idCard=that.userInfo.id_card.substr(0,4)+'*****'+that.userInfo.id_card.substr(14,4)
-//          console.log(that.userInfo);
-          that.avatar='http://120.27.198.97:8081/flower'+that.userInfo.avatar
-          console.log(that.avatar)
+        .then( rs => {
+          if(rs.data.code == '0'){
+            window.location.href = './register'
+          }else{
+            that.userInfo=JSON.parse(rs.data.data);
+            that.message=that.userInfo.nickname;
+            that.sex=that.userInfo.gender;
+            that.idCard=that.userInfo.id_card.substr(0,4)+'*****'+that.userInfo.id_card.substr(14,4)
+  //          console.log(that.userInfo);
+            that.avatar='http://120.27.198.97:8081/flower'+that.userInfo.avatar
+            console.log(that.avatar)
+          }
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch( err => {
+          alert(err);
+          window.location.href='/register'
         });
     },
     methods: {

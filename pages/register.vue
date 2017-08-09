@@ -118,18 +118,22 @@
         axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + sessionid)
         .then( rs => {
-          that.userInfo = JSON.parse(rs.data.data);
-          var vipNo = that.userInfo.membership_number;
-          console.log('vipNo:'+vipNo);
-          if( vipNo != null && vipNo != '' &&
-              vipNo != undefined && vipNo != 'undefined')
-            window.location.href = './myAccount';
-          else
-            window.location.href = './infoFillIn';
-
+          if(rs.data.code == '0'){
+            window.location.href = './register'
+          }else{
+            that.userInfo = JSON.parse(rs.data.data);
+            var vipNo = that.userInfo.membership_number;
+            console.log('vipNo:'+vipNo);
+            if( vipNo != null && vipNo != '' &&
+                vipNo != undefined && vipNo != 'undefined')
+              window.location.href = './myAccount';
+            else
+              window.location.href = './infoFillIn';
+          }
         })
         .catch( err => {
-          console.log(err);
+          alert(err);
+          window.location.href='/register'
         });
       },
       // 开始倒计时

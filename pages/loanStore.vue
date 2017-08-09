@@ -1,20 +1,19 @@
 <template>
   <section class="container">
     <div class="product" v-for="(item , index) in productList" @click="jump(item.link)">
-      <img width="60" height="60" src="../static/main_profilephoto_icon.png"/>
+      <img width="60" height="60" :src="item.logo"/>
       <div class="product-name">{{item.product_name}}</div>
       <div class="desc">
         <span class="dailyRate">日利率<span class="number">{{item.rate}}</span></span>
-        <span class="lines">最高额度<span class="number">10万</span></span>
+        <span class="lines">最高额度<span class="number">{{item.loan_range_max}}</span></span>
         <span class="success">成功率<span class="number">{{item.success_rate}}</span></span>
       </div>
       <div class="advantage">
-        <span class="advantage-inner">申请资料简单</span>
-        <span class="advantage-inner">信用卡贷10万</span>
+        <span class="advantage-inner" v-for="abc in item.brief.split(',')">{{abc}}</span>
       </div>
       <div class="discount-wrapper">
         <img width="10" height="10" src="../static/next_pay_icon.png">
-        <div class="discount">最高立减50</div>
+        <div class="discount">最高立减{{item.discount}}</div>
         <img width="10" height="10" src="../static/back_authority_icon.png">
       </div>
       <div class="top-wrapper" v-if="index==0">
@@ -35,6 +34,7 @@
       var that = this;
       axios.get('http://120.27.198.97:8081/flower/w/youLoan/loanList')
         .then(function (response) {
+          console.log(response.data.list)
           that.productList=response.data.list
         })
         .catch(function (error) {
@@ -70,6 +70,7 @@
       >img
         margin-top 23px
         margin-bottom 12px
+        border-radius 15px
       .product-name
         font-size 17px
         color #fffffe
@@ -118,7 +119,7 @@
         justify-content center
         align-items center
         .discount
-          width 105px
+          width 115px
           text-align center
           height 25px
           color #BDAA73

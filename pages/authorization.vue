@@ -56,7 +56,7 @@
         <div class="confirm" @click="openPay">
           确认支付
         </div>
-
+        <div class="attention">{{attentionWord}}</div>
       </div>
     </div>
   </section>
@@ -99,6 +99,18 @@
         userInfo:{},
         startTime: 0,     /* 开始轮询交易结果的时间 */
         queryTimer: 0     /* 轮询计时器 */
+      }
+    },
+    computed: {
+      attentionWord() {
+        if (process.browser) {
+          var ua = navigator.userAgent.toLowerCase();
+          if(ua.match(/MicroMessenger/i)=="micromessenger") {
+            return '提示：如需支付宝支付，请点击右上角使用第三方浏览器打开'
+          } else {
+            return '提示：如需微信支付，请在微信内搜索“优贷管家”关注公众号'
+          }
+        }
       }
     },
     created (){
@@ -158,7 +170,7 @@
         })
         .catch(function (error) {
           alert(error);
-          window.location.href='/register'
+//          window.location.href='/register'
         });
     },
     methods: {
@@ -466,6 +478,7 @@
         width 301px
         height 180px
         border 2px solid #bdaa73
+        position relative
         .payTitle
           height 46px
           line-height 46px
@@ -513,4 +526,14 @@
           border 1px solid #BDAA73
           margin 18px auto
           text-align center
+        .attention
+          position: absolute;
+          bottom: -60px;
+          left: 50px;
+          width: 200px;
+          text-align: center;
+          word-wrap: break-word;
+          font-size 12px
+          color #BDAA73
+          line-height 20px
 </style>

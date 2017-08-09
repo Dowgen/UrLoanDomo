@@ -428,6 +428,7 @@
           outline none
           border none
           text-align end
+          width 170px
         .select-time
           vertical-align middle
           text-transform none

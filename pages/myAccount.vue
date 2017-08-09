@@ -58,7 +58,7 @@
     <div v-swiper:mySwiper="swiperOption" v-show="maskStatus">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="banner in banners">
-          <div class="product">
+          <div class="product" @click="jump(banner.linkUrl)">
             <img width="63" height="63" :src='banner.imgUrl' />
             <div class="product-name">{{banner.name}}</div>
             <div class="desc">
@@ -92,28 +92,23 @@
         avatar:'',
         banners: [
           {
-            imgUrl: './main_profilephoto_icon.png',
-            name: '功夫贷',
-            rate: '0.05%',
-            line: '10万',
-            success: '96%',
-            advantage: ['申请资料简单', '信用卡贷10万']
-          },
-          {
-            imgUrl: './main_profilephoto_icon.png',
+
+            imgUrl: '	./logo_xianjinxia.jpg',
             name: '现金侠',
-            rate: '0.06%',
-            line: '11.8万',
-            success: '96%',
-            advantage: ['申请简单', '信用卡贷10万']
+            rate: '0.3%',
+            line: '5000元',
+            success: '90%',
+            advantage: ['芝麻信用分', '有工作就贷'],
+            linkUrl:'http://channel.xianjinxia.com/act/light-loan-xjx-beta?invite_code=MTcwNTQ2OA==&user_from=409&id=1'
           },
           {
-            imgUrl: './main_profilephoto_icon.png',
-            name: '米兔儿',
-            rate: '0.07%',
-            line: '12万',
-            success: '96%',
-            advantage: ['申请资料简单', '信用卡10万']
+            imgUrl: '	./logo_shandianzhouzhuan.jpg',
+            name: '闪电周转',
+            rate: '0.86%',
+            line: '1000元',
+            success: '79%',
+            advantage: ['芝麻分550分+', '3分钟放款'],
+            linkUrl:'https://sdzz-h5-rt.fqgj.net?channel=lydgj81xy'
           }],
         swiperOption: {
           autoplay: 5000,
@@ -155,6 +150,9 @@
       hideAll(){
         this.maskStatus = false;
         this.$refs.containerInner.style.zIndex=1;
+      },
+      jump(adress){
+        window.location.href=adress
       }
     }
   }
@@ -166,7 +164,7 @@
     left 0
     width 100%
     .swiper-pagination
-      bottom 20px
+      bottom 10px
   .container
     position relative
     width 100%
@@ -260,7 +258,7 @@
       width 100%
       background-color #ffffff
       text-align center
-      padding-bottom 60px
+      padding-bottom 50px
       >img
         margin-top 34px
         margin-bottom 8px

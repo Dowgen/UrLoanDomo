@@ -4,11 +4,9 @@
       <img width="32" height="65" src="../static/register_pic1.png"/>
       <div class="information">
         <img width="70" height="70" src="../static/register_pic2.png">
-        <div class="zhima">
-          <img width="45" height="45" src="../static/register_pic3.png"/>
-        </div>
         <div class="text">基本信息</div>
       </div>
+      <img width="32" height="65" src="../static/register_pic5.png"/>
     </div>
     <div class="grey"></div>
     <div class="content">
@@ -176,6 +174,10 @@
       >img
         position absolute
         top 36px
+      >img:last-child
+        position absolute
+        top 36px
+        right 0
       .information
         position relative
         width 300px

@@ -61,14 +61,17 @@
         axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
         .then( rs => {
-          that.userInfo = JSON.parse(rs.data.data);
-          var vipNo = that.userInfo.membership_number;
-          console.log('vipNo:'+vipNo);
-          if( vipNo != null && vipNo != '' &&
+          if(rs.data.code == '0'){
+            alert('无该用户信息！');
+          }else{
+            that.userInfo = JSON.parse(rs.data.data);
+            var vipNo = that.userInfo.membership_number;
+            if( vipNo != null && vipNo != '' &&
               vipNo != undefined && vipNo != 'undefined')
-            window.location.href = './myAccount'
-          else
-            window.location.href = './infoFillIn'
+              window.location.href = './myAccount'
+            else
+              window.location.href = './infoFillIn'
+          }
         })
         .catch( err => alert(err));
       }

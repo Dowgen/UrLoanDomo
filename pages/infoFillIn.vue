@@ -96,11 +96,15 @@
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
         .then(function (response) {
-          that.userInfo=JSON.parse(response.data.data);
-          that.phoneNumber=that.userInfo.phone_number;
-          console.log(that.userInfo);
-          if (that.userInfo.ocp){
-              that.job=that.userInfo.ocp
+          if(rs.data.code == '0'){
+            alert('无该用户信息！');
+          }else{
+            that.userInfo=JSON.parse(response.data.data);
+            that.phoneNumber=that.userInfo.phone_number;
+            console.log(that.userInfo);
+            if (that.userInfo.ocp){
+                that.job=that.userInfo.ocp
+            }
           }
         })
         .catch(function (error) {

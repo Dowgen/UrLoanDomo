@@ -139,14 +139,18 @@
       axios.get('http://120.27.198.97:8081/flower/w/xhhApp/selectLoanUser?'+
         'sessionid=' + localStorage.sessionid)
         .then(function (response) {
-          that.userInfo=JSON.parse(response.data.data);
-          console.log(that.userInfo);
-          that.avatar='http://120.27.198.97:8081/flower'+that.userInfo.avatar
-          that.age=year-that.userInfo.id_card.substring(6,10)+'岁'
-          if (that.userInfo.gender=='男'){
-              that.manStatus=true
-          }else if (that.userInfo.gender=='女'){
-            that.womanStatus=true
+          if(rs.data.code == '0'){
+            alert('无该用户信息！');
+          }else{
+            that.userInfo=JSON.parse(response.data.data);
+            console.log(that.userInfo);
+            that.avatar='http://120.27.198.97:8081/flower'+that.userInfo.avatar
+            that.age=year-that.userInfo.id_card.substring(6,10)+'岁'
+            if (that.userInfo.gender=='男'){
+                that.manStatus=true
+            }else if (that.userInfo.gender=='女'){
+              that.womanStatus=true
+            }
           }
         })
         .catch(function (error) {

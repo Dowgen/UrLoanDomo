@@ -1,14 +1,12 @@
 <template>
   <section class="container">
     <div class="top">
-      <img width="32" height="65" src="../static/register_pic5.png"/>
+      <img width="32" height="65" src="../static/register_pic1.png"/>
       <div class="information">
         <img width="70" height="70" src="../static/register_pic4.png">
-        <div class="zhima">
-          <img width="45" height="45" src="../static/register_pic6.png"/>
-        </div>
         <div class="text">芝麻信用</div>
       </div>
+      <img width="32" height="65" src="../static/register_pic5.png"/>
     </div>
     <div class="grey"></div>
     <div class="content">
@@ -350,6 +348,10 @@
       >img
         position absolute
         right 0
+        top 36px
+      >img:first-child
+        position absolute
+        left 0
         top 36px
       .information
         position relative

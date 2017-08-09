@@ -41,17 +41,19 @@
     },
     methods:{
       jump (){
-        var now = Date.now(), last = localStorage.lastLoginTime;
-        /* 距离上次登录间隔的分钟数 */
-        var duration = (now - last)/60000;
-        if(duration >= 300 || !duration){
+        var now = Date.now();
+        var last = localStorage.lastLoginTime || 'first';
+        var sid = localStorage.sessionid;
+        if(last === 'first' || sid === ''){ //第一次登录或退出过登录
           window.location.href = './register'
         }else{
-          var sid = localStorage.sessionid;
-          if(sid == undefined || sid == '') 
+          /* 距离上次登录间隔的分钟数 */
+          var duration = (now - last)/60000;
+          if(duration >= 300 ){  //sessionid时长为5个小时
             window.location.href = './register'
-          else
-            this.deepJump();
+          }else{
+              this.deepJump();
+          }
         }
       },
       deepJump (){
@@ -68,9 +70,7 @@
           else
             window.location.href = './infoFillIn'
         })
-        .catch( err => {
-          console.log(err);
-        });
+        .catch( err => alert(err));
       }
     }
   }

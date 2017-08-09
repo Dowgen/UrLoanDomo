@@ -99,7 +99,7 @@
         'sessionid=' + localStorage.sessionid)
         .then(function (response) {
           if(rs.data.code == '0'){
-            alert('无该用户信息！');
+            window.location.href = './register'
           }else{
             that.userInfo=JSON.parse(response.data.data);
             that.message=that.userInfo.nickname;

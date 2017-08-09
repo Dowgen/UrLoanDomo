@@ -119,7 +119,7 @@
         'sessionid=' + sessionid)
         .then( rs => {
           if(rs.data.code == '0'){
-            alert('无该用户信息！');
+            window.location.href = './register'
           }else{
             that.userInfo = JSON.parse(rs.data.data);
             var vipNo = that.userInfo.membership_number;

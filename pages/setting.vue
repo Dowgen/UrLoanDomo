@@ -152,7 +152,7 @@
         justify-content space-between
         padding-right 20px
         margin-left 20px
-        border-bottom 1px solid #CBC7CB
+        border-bottom 1px solid #C8C7CB
         align-items center
         height 48px
         background #ffffff

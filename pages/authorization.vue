@@ -158,6 +158,7 @@
         })
         .catch(function (error) {
           alert(error);
+          window.location.href='/register'
         });
     },
     methods: {

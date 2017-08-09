@@ -174,7 +174,7 @@
       z-index 1
       width 100%
       height 50px
-      position absolute
+      position fixed
       left 0
       bottom 0
       text-align center
@@ -242,11 +242,11 @@
             color #BFBFBF
     .service-content
       z-index 10
-      top  0  
+      top  0
       left 0
-      bottom 0  
-      position fixed  
-      overflow-y scroll  
+      bottom 0
+      position fixed
+      overflow-y scroll
       overflow-x hidden
       width 100%
       height 100%

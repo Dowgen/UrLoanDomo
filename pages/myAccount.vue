@@ -55,10 +55,11 @@
       </div>
     </div>
     <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
+    <div id="banner" class="banner">
     <div id="owl" class="owl-carousel owl-theme"  v-show="maskStatus">
       <div class="item" v-for="banner in banners">
         <div class="product" @click="jump(banner.linkUrl)">
-          <img width="63" height="63" :src='banner.imgUrl' />
+          <img :src='banner.imgUrl' />
           <div class="product-name">{{banner.name}}</div>
           <div class="desc">
             <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
@@ -70,8 +71,9 @@
             <span class="advantage-inner">{{banner.advantage[1]}}</span>
           </div>
         </div>
-        <img style="position: absolute;top: -1px;right: 48px; " width="36" height="46" src="../static/recommend_icon.png"/>
+        <img style="position: absolute;top: -1px;right: 48px;width:36px;height:46px;" src="../static/recommend_icon.png"/>
       </div>
+    </div>
     </div>
     <!-- <div v-swiper:mySwiper="swiperOption"  v-show="maskStatus">
       <div class="swiper-wrapper">
@@ -102,12 +104,12 @@
   export default {
     head:{
       link: [
-        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.css'},
-        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.theme.default.min.css'},
+        {rel: 'stylesheet', href: 'css/owl/owl.carousel.min.css'},
+        {rel: 'stylesheet', href: 'css/owl/owl.theme.default.min.css'},
       ],
       script: [
-        { src: 'http://flowercredit.cn/static/flower/js/jQuery.min.js' },
-        { src: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.js' }
+        { src: 'js/jQuery.min.js' },
+        { src: 'css/owl/owl.carousel.min.js' }
       ]
     },
     data () {
@@ -198,13 +200,15 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .swiper-container
+  #owl
     position fixed
     bottom 0
     left 0
     width 100%
-    .swiper-pagination
-      bottom 10px
+    background white
+    .owl-dots .owl-dot span
+      background: #bdaa73;
+      opacity: 0.66;
   .container
     position relative
     width 100%
@@ -300,8 +304,9 @@
       text-align center
       padding-bottom 50px
       >img
-        margin-top 34px
-        margin-bottom 8px
+        width 63px
+        height 63px
+        margin 34px auto 8px
         border-radius 15px
       .product-name
         font-size 15px

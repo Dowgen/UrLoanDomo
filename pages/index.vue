@@ -37,12 +37,12 @@
   export default {
     head:{
       link: [
-        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.css'},
-        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.theme.default.min.css'},
+        {rel: 'stylesheet', href: 'css/owl/owl.carousel.min.css'},
+        {rel: 'stylesheet', href: 'css/owl/owl.theme.default.min.css'},
       ],
       script: [
-        { src: 'http://flowercredit.cn/static/flower/js/jQuery.min.js' },
-        { src: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.js' }
+        { src: 'js/jQuery.min.js' },
+        { src: 'css/owl/owl.carousel.min.js' }
       ]
     },
     data () {
@@ -114,7 +114,6 @@
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   #bottom
-    max-width:640px
     text-align: center;
     background:url('~static/login_bg.jpg') no-repeat;
     background-size: 100% 100%;

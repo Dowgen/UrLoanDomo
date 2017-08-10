@@ -13,7 +13,7 @@
       </div>
       <div class="discount-wrapper">
         <img width="10" height="10" src="../static/next_pay_icon.png">
-        <div class="discount">最高立减{{item.discount}}</div>
+        <div class="discount">最高返现{{item.discount}}</div>
         <img width="10" height="10" src="../static/back_authority_icon.png">
       </div>
       <div class="top-wrapper" v-if="index==0">

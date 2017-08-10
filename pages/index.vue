@@ -2,13 +2,13 @@
   <div id="bottom">
     <div id="owl" class="owl-carousel owl-theme">
       <div class="item">
-        <img src="1.1.jpg">
+        <img src="index1.jpg">
       </div>
       <div class="item">
-        <img src="2.2.jpg">
+        <img src="index2.jpg">
       </div>
       <div class="item">
-        <img src="3.3.jpg">
+        <img src="index3.jpg">
       </div>
     </div>
 <!--     <div v-swiper:mySwiper="swiperOption">
@@ -68,7 +68,7 @@
           loop: true,
           autoplay: true,
           autoplayTimeout: 3000
-       }); 
+       });
     },
     methods:{
       jump (){
@@ -130,7 +130,7 @@
       width:78%
       height:75%
       img
-        width:90%
+        width:95%
         height:80%
         margin 0 auto
       .owl-theme .owl-dots .owl-dot span

@@ -55,7 +55,25 @@
       </div>
     </div>
     <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
-    <div v-swiper:mySwiper="swiperOption" v-show="maskStatus">
+    <div id="owl" class="owl-carousel owl-theme"  v-show="maskStatus">
+      <div class="item" v-for="banner in banners">
+        <div class="product" @click="jump(banner.linkUrl)">
+          <img width="63" height="63" :src='banner.imgUrl' />
+          <div class="product-name">{{banner.name}}</div>
+          <div class="desc">
+            <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
+            <span class="lines">最高额度<span class="number">{{banner.line}}</span></span>
+            <span class="success">成功率<span class="number">{{banner.success}}</span></span>
+          </div>
+          <div class="advantage">
+            <span class="advantage-inner">{{banner.advantage[0]}}</span>
+            <span class="advantage-inner">{{banner.advantage[1]}}</span>
+          </div>
+        </div>
+        <img style="position: absolute;top: -1px;right: 48px; " width="36" height="46" src="../static/recommend_icon.png"/>
+      </div>
+    </div>
+    <!-- <div v-swiper:mySwiper="swiperOption"  v-show="maskStatus">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="banner in banners">
           <div class="product" @click="jump(banner.linkUrl)">
@@ -75,13 +93,23 @@
         </div>
       </div>
       <div class="swiper-pagination swiper-pagination-bullets"></div>
-    </div>
+    </div> -->
   </section>
 </template>
 <script type="text/ecmascript">
   import axios from 'axios'
 
   export default {
+    head:{
+      link: [
+        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.css'},
+        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.theme.default.min.css'},
+      ],
+      script: [
+        { src: 'http://flowercredit.cn/static/flower/js/jQuery.min.js' },
+        { src: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.js' }
+      ]
+    },
     data () {
       return {
         maskStatus: true,
@@ -149,6 +177,14 @@
           alert(err);
           window.location.href='/register'
         });
+
+        //轮播图插件
+       $("#owl").owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 3000
+       }); 
     },
     methods: {
       hideAll(){

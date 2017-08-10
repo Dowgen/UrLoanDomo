@@ -1,19 +1,31 @@
 <template>
   <div id="bottom">
-    <div v-swiper:mySwiper="swiperOption">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img style="width:100%;height:100%" src="../static/1.1.jpg">
-        </div>
-        <div class="swiper-slide">
-          <img style="width:100%;height:100%" src="../static/2.2.jpg">
-        </div>
-        <div class="swiper-slide">
-          <img style="width:100%;height:100%" src="../static/3.3.jpg">
-        </div>
+    <div id="owl" class="owl-carousel owl-theme">
+      <div class="item">
+        <img src="1.1.jpg">
       </div>
-      <div class="swiper-pagination swiper-pagination-bullets"></div>
+      <div class="item">
+        <img src="2.2.jpg">
+      </div>
+      <div class="item">
+        <img src="3.3.jpg">
+      </div>
     </div>
+<!--     <div v-swiper:mySwiper="swiperOption">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img style="width:100%;height:100%" src="../static/1.1.jpg">
+    </div>
+    <div class="swiper-slide">
+      <img style="width:100%;height:100%" src="../static/2.2.jpg">
+    </div>
+    <div class="swiper-slide">
+      <img style="width:100%;height:100%" src="../static/3.3.jpg">
+    </div>
+  </div>
+  <div class="swiper-pagination swiper-pagination-bullets"></div>
+</div> -->
+
     <div class="bottom-btn">
       <div class="apply" @click="jump">在线申请</div>
       <div class="register" @click="jump">立即登录</div>
@@ -23,6 +35,16 @@
 <script type="text/ecmascript">
   import axios from 'axios'
   export default {
+    head:{
+      link: [
+        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.css'},
+        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.theme.default.min.css'},
+      ],
+      script: [
+        { src: 'http://flowercredit.cn/static/flower/js/jQuery.min.js' },
+        { src: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.js' }
+      ]
+    },
     data () {
       return {
         swiperOption: {
@@ -38,6 +60,15 @@
           }
         }
       }
+    },
+    mounted (){
+      //轮播图插件
+       $("#owl").owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 3000
+       }); 
     },
     methods:{
       jump (){
@@ -92,15 +123,22 @@
     bottom:8vh;
     width:100%;
     height:100%;
-    .swiper-container
-      width 80%
-      height 86%
-      .swiper-slide
-        margin-top 32px
-        padding-bottom 87px
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    #owl
+      margin:0 auto
+      width:78%
+      height:75%
+      img
+        width:90%
+        height:80%
+        margin 0 auto
+      .owl-theme .owl-dots .owl-dot span
+        width 7px
+        height 7px
     .bottom-btn
       width 100%
-      position absolute
       display flex
       bottom 30px
       justify-content center

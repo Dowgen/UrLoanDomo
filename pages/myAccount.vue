@@ -54,10 +54,28 @@
         </div>
       </div>
     </div>
-    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent>
-      <img src="../static/attention.png">
+    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
+    <div id="banner" class="banner">
+    <div id="owl" class="owl-carousel owl-theme"  v-show="maskStatus">
+      <div class="item" v-for="banner in banners">
+        <div class="product" @click="jump(banner.linkUrl)">
+          <img :src='banner.imgUrl' />
+          <div class="product-name">{{banner.name}}</div>
+          <div class="desc">
+            <span class="dailyRate">日利率<span class="number">{{banner.rate}}</span></span>
+            <span class="lines">最高额度<span class="number">{{banner.line}}</span></span>
+            <span class="success">成功率<span class="number">{{banner.success}}</span></span>
+          </div>
+          <div class="advantage">
+            <span class="advantage-inner">{{banner.advantage[0]}}</span>
+            <span class="advantage-inner">{{banner.advantage[1]}}</span>
+          </div>
+        </div>
+        <img style="position: absolute;top: -1px;right: 48px;width:36px;height:46px;" src="../static/recommend_icon.png"/>
+      </div>
     </div>
-    <div v-swiper:mySwiper="swiperOption" v-show="maskStatus">
+    </div>
+    <!-- <div v-swiper:mySwiper="swiperOption"  v-show="maskStatus">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="banner in banners">
           <div class="product" @click="jump(banner.linkUrl)">
@@ -77,13 +95,23 @@
         </div>
       </div>
       <div class="swiper-pagination swiper-pagination-bullets"></div>
-    </div>
+    </div> -->
   </section>
 </template>
 <script type="text/ecmascript">
   import axios from 'axios'
 
   export default {
+    head:{
+      link: [
+        {rel: 'stylesheet', href: 'css/owl/owl.carousel.min.css'},
+        {rel: 'stylesheet', href: 'css/owl/owl.theme.default.min.css'},
+      ],
+      script: [
+        { src: 'js/jQuery.min.js' },
+        { src: 'css/owl/owl.carousel.min.js' }
+      ]
+    },
     data () {
       return {
         maskStatus: true,
@@ -151,6 +179,14 @@
           alert(err);
           window.location.href='/register'
         });
+
+        //轮播图插件
+       $("#owl").owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 3000
+       });
     },
     methods: {
       hideAll(){
@@ -164,13 +200,15 @@
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .swiper-container
+  #owl
     position fixed
     bottom 0
     left 0
     width 100%
-    .swiper-pagination
-      bottom 10px
+    background white
+    .owl-dots .owl-dot span
+      background: #bdaa73;
+      opacity: 0.66;
   .container
     position relative
     width 100%
@@ -280,8 +318,9 @@
       text-align center
       padding-bottom 50px
       >img
-        margin-top 34px
-        margin-bottom 8px
+        width 63px
+        height 63px
+        margin 34px auto 8px
         border-radius 15px
       .product-name
         font-size 15px

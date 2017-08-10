@@ -79,7 +79,7 @@
   export default{
     head: {
       script: [
-        { src: 'http://flowercredit.cn/static/jhcommon/js/jQuery.min.js' }
+        { src: 'js/jQuery.min.js' }
       ]
     },
     data () {

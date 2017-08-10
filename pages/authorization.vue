@@ -85,7 +85,7 @@
   export default{
     head: {
       script: [
-        { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.2/jquery.min.js' },
+        { src: 'js/jQuery.min.js' },
         { src: 'http://120.27.198.97:8081/flower/static/yloan/js/alipaywap.js' }
       ]
     },

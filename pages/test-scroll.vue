@@ -44,47 +44,47 @@
 <!--</style>-->
 <!-- You can custom the "mySwiper" name used to find the swiper instance in current component -->
 <template>
-  <div v-swiper:mySwiper="swiperOption">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="banner in banners">
-        <img :src="banner">
-      </div>
-    </div>
-    <div class="swiper-pagination swiper-pagination-bullets"></div>
-  </div>
+  <div id="owl" class="owl-carousel owl-theme">
+              <div class="item">
+                <img src="../static/main_profile_arrow.png">
+              </div>
+              <div class="item">
+                <img src="../static/main_profile_arrow.png">
+              </div>
+              <div class="item">
+                <img src="../static/main_profile_arrow.png">
+              </div>
+            </div>
 </template>
 
 <script>
   export default {
+    head:{
+      link: [
+        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.css'},
+        {rel: 'stylesheet', href: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.theme.default.min.css'},
+      ],
+      script: [
+        { src: 'http://flowercredit.cn/static/flower/js/jQuery.min.js' },
+        { src: 'http://flowercredit.cn/flower/static/flower/css/owl/owl.carousel.min.js' }
+      ]
+    },
     data () {
       return {
-        banners: [ '/1.jpg', '/2.jpg', '/3.jpg' ],
-        swiperOption: {
-          autoplay: 5000,
-          initialSlide: 1,
-          loop: true,
-          pagination: '.swiper-pagination',
-          onSlideChangeEnd: swiper => {
-            console.log('onSlideChangeEnd', swiper.realIndex)
-          }
-        }
+      
       }
     },
-    mounted() {
-      console.log('app init')
-      setTimeout(() => {
-        this.banners.push('/5.jpg')
-        console.log('banners update')
-      }, 3000)
-      console.log(
-        'This is current swiper instance object', this.mySwiper,
-        'It will slideTo banners 3')
-      this.mySwiper.slideTo(3)
+    mounted (){
+      //轮播图插件
+       $("#owl").owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 3000
+       }); 
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .swiper-pagination-bullet-active
-    background #C1A96B
 </style>

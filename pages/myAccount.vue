@@ -54,7 +54,9 @@
         </div>
       </div>
     </div>
-    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
+    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent>
+      <img src="../static/attention.png">
+    </div>
     <div v-swiper:mySwiper="swiperOption" v-show="maskStatus">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="banner in banners">
@@ -253,10 +255,24 @@
             font-size 13px
             color #828389
     .global-mask
+      position relative
       width 100%
       height 100%
       background: rgba(0, 0, 0, 0.4);
       animation: fade 0.5s linear;
+      img
+        position absolute
+        top 133px
+        width 172px;
+        height 92px
+        left: 50%;
+        margin-left: -60px;
+      .circle
+        width 33%
+        height 126px
+        border-radius 50%
+        border 1px dotted #ffffff
+        z-index -1
     .product
       position relative
       width 100%

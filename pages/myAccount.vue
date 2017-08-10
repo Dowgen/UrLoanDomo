@@ -302,6 +302,7 @@
       >img
         margin-top 34px
         margin-bottom 8px
+        border-radius 15px
       .product-name
         font-size 15px
         color #212121

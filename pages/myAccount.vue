@@ -54,7 +54,9 @@
         </div>
       </div>
     </div>
-    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent></div>
+    <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent>
+      <img src="../static/attention.png">
+    </div>
     <div id="banner" class="banner">
     <div id="owl" class="owl-carousel owl-theme"  v-show="maskStatus">
       <div class="item" v-for="banner in banners">

@@ -15,7 +15,13 @@ module.exports = {
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
       {rel: 'stylesheet', href: 'https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css'},
-    ]
+    ],
+    script: [
+      {
+        type: 'text/javascript',
+        src: 'js/tongji.js'
+      }
+    ],
   },
   plugins: [
     { src: '~plugins/swiper.js', ssr: false }

@@ -3,7 +3,7 @@
     <div class="regist" v-show="!slideEnd" >
       <img src="propagate/regist.png" onclick="location.href='/register'">
     </div>   
-    <div v-swiper:mySwiper="swiperOption">
+    <div v-swiper:mySwiper="swiperOption" v-cloak>
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img src="propagate/1.jpg">
@@ -67,6 +67,7 @@ export default{
     font-size calc(100vw/10);
     position relative
     background black
+    width 100%
   .regist
     position: absolute
     right: 4%
@@ -95,7 +96,7 @@ export default{
   #array
     width: 72px;
     height: 37px;
-    bottom: 3%;
+    bottom: 5%;
     left: 0;
     right: 0;
     margin: auto;

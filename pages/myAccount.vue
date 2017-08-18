@@ -52,7 +52,17 @@
           </div>
           <div class="text">设置</div>
         </div>
+        <div class="project-item" @click="QRShow">
+          <div class="item-img">
+            <img width="23" height="23" src="../static/QR_icon.png">
+          </div>
+          <div class="text">二维码</div>
+        </div>
       </div>
+    </div>
+    <div class="QR-con" @click="hideQR" v-show="QRStatus">
+      <img src="../static/QR.jpg" class="QR-code">
+      <img src="../static/QR_close.png" class="QR-close">
     </div>
     <div class="global-mask" v-show="maskStatus" @click="hideAll" @touchmove.prevent>
       <img src="../static/attention.png">
@@ -116,6 +126,7 @@
     },
     data () {
       return {
+        QRStatus: false,
         maskStatus: true,
         manStatus: false,
         womanStatus: false,
@@ -191,6 +202,14 @@
        });
     },
     methods: {
+      QRShow(){
+        $('.container-inner').css('filter','blur(2px)');
+        this.QRStatus = true;
+      },
+      hideQR(){
+        $('.container-inner').css('filter','');
+        this.QRStatus = false;
+      },
       hideAll(){
         this.maskStatus = false;
         this.$refs.containerInner.style.zIndex=1;
@@ -294,6 +313,26 @@
           .text
             font-size 13px
             color #828389
+    .QR-con
+      position absolute
+      top 0 
+      left 0 
+      right 0 
+      bottom 0 
+      width 100%
+      height 100%
+      display flex
+      justify-content center
+      flex-direction column
+      align-items center
+      z-index 999
+      .QR-code
+        width 250px 
+        height 350px
+      .QR-close
+        width 35px
+        height 35px
+        margin-top 25px
     .global-mask
       position relative
       width 100%

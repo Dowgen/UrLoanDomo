@@ -214,7 +214,7 @@
         var out_trade_no = Date.now() + Math.random().toString(36).substr(10);
         /* 下单 */
         axios.get('http://120.27.198.97:8081/flower/w/weiXin/order?out_trade_no=' + out_trade_no +
-          '&total_fee=199&sub_openid=' + openid)
+          '&total_fee=19900&sub_openid=' + openid)
         .then( res => {
                 /* 拉起微信支付 */
                 if (typeof WeixinJSBridge == "undefined"){
@@ -267,7 +267,7 @@
           + '&body=优贷管家vip年费'      /* 商品描述 */
           + '&store_appid=10086'         /* 门店APPID */
           + '&attach=附加信息'
-          + '&total_fee=199'               /* 支付金额 */
+          + '&total_fee=19900'               /* 支付金额 */
         )
         .then( res => {
                 alipay_wap(res.data.prepay_id, null);

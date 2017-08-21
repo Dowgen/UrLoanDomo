@@ -125,7 +125,7 @@
               /* 用户还未点击微信支付 */
             }else{
               /* 已点击，则调用后台接口以获得openid */
-              toastr.warning('正在发起请求，请稍候!');
+              toastr.info('正在发起请求，请稍候!');
               axios.get('http://young.flowercredit.cn:8081/flower/w/weiXin/code'+ window.location.search)
               .then( rs => {
                         alert('是否确认支付');
@@ -143,7 +143,7 @@
       }else{
         console.log(process)
         /* 已芝麻认证，把芝麻返回的数据发给我们自己的服务器 */
-        toastr.warning('认证成功，请稍候');
+        toastr.success('认证成功，请稍候');
         axios.get('http://120.27.198.97:8081/flower/w/youngzhima/zhimaCredit?'
           /* 返回的数据需原封不动，因此用 encodeURIComponent 再编码 */
           + 'params=' + encodeURIComponent( this.GetQueryString('params') )

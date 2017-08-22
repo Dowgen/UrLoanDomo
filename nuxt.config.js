@@ -20,6 +20,10 @@ module.exports = {
       {
         type: 'text/javascript',
         src: 'js/tongji.js'
+      },
+      { /* 推啊JS */
+        type: 'text/javascript',
+        src: 'http://yun.duiba.com.cn/h5-tuia/adverter.js'
       }
     ],
   },

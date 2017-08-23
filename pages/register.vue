@@ -226,8 +226,12 @@
               that.init();
               that.user_info = JSON.parse(data.data.loanUser);
               that.setCookie(data.data);
-              //跳转
-              that.jumpUrl(localStorage.sessionid);
+              /* 推啊埋点 */
+              if(!!window.TuiaAdverter) { 
+                  TuiaAdverter.init( that.jumpUrl(localStorage.sessionid))
+              }else{
+                that.jumpUrl(localStorage.sessionid);
+              }     
             }
             that.$refs.ensure_btn.removeAttribute("disabled");
             that.$refs.ensure_btn.style.background = "#bdaa73";
